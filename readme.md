@@ -12,6 +12,6 @@
     ```
     #composer create-project laravel/laravel owner --prefer-dist "5.2.*"
     ```
-    * 进入localhost/项目根目录/public
-    ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
+    * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
+    ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
 
