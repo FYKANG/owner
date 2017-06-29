@@ -6,6 +6,9 @@
   * 关于laravel的安装
     * 使用官方提供的安装方法，首先安装composer
     ```
-    yum install composer
+    # yum install composer
+    ```
+    ```
+    # composer create-project laravel/laravel owner --prefer-dist "5.2.*"
     ```
     
