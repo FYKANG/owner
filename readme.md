@@ -9,7 +9,7 @@
     #yum install composer
     ```
     * 使用composer在当前目录下安装laravel(根据你的需要可以替换owner目录，以及5.2的版本号，注意安装目录的权限设置，以及使用composer进行安装需要在非root用户下进行）
-    ```
+   ```
     #composer create-project laravel/laravel owner --prefer-dist "5.2.*"
-    ```
+   ```
     
