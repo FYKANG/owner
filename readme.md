@@ -13,5 +13,5 @@
     #composer create-project laravel/laravel owner --prefer-dist "5.2.*"
     ```
     * 进入localhost/项目根目录/public
-    ![](https://github.com/FYKANG/owner/githubIMG/laravelCheck.png)
+    ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
 
