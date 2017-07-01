@@ -13,7 +13,7 @@
     ```
     * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
     ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
-### 2017/7/1
+## 2017/7/1
   * laravel的路由使用，在更目录下的app/Http/routes.php添加路由，路由的基本请求类型有get,post,put,patch,delete,options.
     * 基本的书写格式
       ```laravel
