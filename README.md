@@ -22,7 +22,7 @@
   	});
   	````
   	* 通过访问`localhost/owner/public/index.php/test`web页面上会显示test字样。
-  * 路由规则的修改，除去index.php
+ * 路由规则的修改，除去index.php
   	* 我们可以通过修改apache的配置去修改路由规则，具体如下。
     	* 修改apache安装目录下的conf/httpd.conf
       	* 将#LoadModule rewrite_module modules/mod_rewrite.so前面的#除去，部分httpd.conf配置文件里面会出现没有这一段情况，我们可以去modules目录下确认一下有无mod_rewrite.so文件，如果有那么我们可以直接在httpd.conf中添加LoadModule rewrite_module modules/mod_rewrite.so.
