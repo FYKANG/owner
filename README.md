@@ -31,4 +31,4 @@
       ```
       service httpd restart
       ```
-      这是linux系统下的重启命令，window下可以打开任务管理器，选择服务，找到apache右键重启启动服务。
+      这是linux系统下的重启命令，window下可以打开任务管理器，选择服务，找到apache右键重启启动服务
