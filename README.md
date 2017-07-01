@@ -16,18 +16,18 @@
 ## 2017/7/1
   * laravel的路由使用，在根目录下的app/Http/routes.php添加路由，路由的基本请求类型有get,post,put,patch,delete,options.
   * 基本的书写格式
-  ```laravel
-  Route::get('test', function () {
-  return 'test';
-  });
-  ````
-  通过访问`localhost/owner/public/index.php/test`web页面上会显示test字样。
+  	```laravel
+  	Route::get('test', function () {
+  	return 'test';
+  	});
+  	````
+  	* 通过访问`localhost/owner/public/index.php/test`web页面上会显示test字样。
   * 路由规则的修改，除去index.php
-    * 我们可以通过修改apache的配置去修改路由规则，具体如下。
-      * 修改apache安装目录下的conf/httpd.conf
-          * 将#LoadModule rewrite_module modules/mod_rewrite.so前面的#除去，部分httpd.conf配置文件里面会出现没有这一段情况，我们可以去modules目录下确认一下有无mod_rewrite.so文件，如果有那么我们可以直接在httpd.conf中添加LoadModule rewrite_module modules/mod_rewrite.so.
-      * 将AllowOverride None修改为AllowOverride All，可以根据你自己的需要修改相应位置的AllowOverride None，如果你对apache的配置不熟悉你可以将全部的AllowOverride None都修改掉，或者一个个试着去修改。
-      * 重启apache服务
+  	* 我们可以通过修改apache的配置去修改路由规则，具体如下。
+    	* 修改apache安装目录下的conf/httpd.conf
+      	* 将#LoadModule rewrite_module modules/mod_rewrite.so前面的#除去，部分httpd.conf配置文件里面会出现没有这一段情况，我们可以去modules目录下确认一下有无mod_rewrite.so文件，如果有那么我们可以直接在httpd.conf中添加LoadModule rewrite_module modules/mod_rewrite.so.
+      	* 将AllowOverride None修改为AllowOverride All，可以根据你自己的需要修改相应位置的AllowOverride None，如果你对apache的配置不熟悉你可以将全部的AllowOverride None都修改掉，或者一个个试着去修改。
+   		* 重启apache服务
       ```
       service httpd restart
       ```
