@@ -22,7 +22,7 @@ Route::get('test', function () {
 return 'test';
 });
 ```
-* 通过访问 `localhost/owner/public/index.php/test` web页面上会显示test字样。
+* 通过访问 `localhost/laravel/public/index.php/test` web页面上会显示test字样。(其中laravel框架的存放目录)
 ### 路由规则的修改，除去index.php
 * 我们可以通过修改apache的配置去修改路由规则，具体如下。
 	* 修改apache安装目录下的conf/httpd.conf
@@ -33,4 +33,4 @@ return 'test';
 		# service httpd restart
 		```
 		* 这是linux系统下的重启命令，window下可以打开任务管理器，选择服务，找到apache右键重启启动服务
-* 现在我们可以通过访问`localhost/owner/public/test`得到test字样了。
+* 现在我们可以通过访问`localhost/laravel/public/test`得到test字样了。
