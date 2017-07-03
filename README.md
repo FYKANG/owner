@@ -242,4 +242,14 @@ public function mysql()
           <p >{{$val->userName}}</p>
 @endforeach
 ```
-
+### css与js的调用
+#### css
+* css存放路径`./public/css`
+```html
+<link rel="stylesheet" href="{{ URL::asset('css/test.css') }}" type="text/css">
+```
+#### js
+* js存放路径`./public/js`
+```html
+<script src="{{ URL::asset('js/test.js') }}" type="text/javascript" charset="utf-8" async defer></script>
+```
