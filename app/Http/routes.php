@@ -19,6 +19,11 @@ Route::get('test', function() {
     return 'test2';
 });
 
-Route::get('/basic1', function () {
+Route::get('basic1', function () {
     return 'welcome';
 });
+Route::any('mysql',[
+	'uses'=>'OwnerController@mysql',
+	'as'=>'mysql'
+
+	]);
