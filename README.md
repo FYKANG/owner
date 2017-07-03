@@ -46,8 +46,8 @@ DB_USERNAME=用户名
 DB_PASSWORD=密码
 ```
 * Model的使用
-	** 在./app目录下创建search.php
-	** 基本的Model模型
+** 在./app目录下创建search.php
+** 基本的Model模型
 	```
 	<?php
 	namespace App;
