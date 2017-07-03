@@ -68,7 +68,7 @@ Route::any('mysql',[
 	'as'=>'mysql'
 	]);
 ```
-*** 这段代码作用为添加一个名为mysql的路由,使用OwnerController控制器中的mysql方法，为路由起一个msyql的别名
+	*** 这段代码作用为添加一个名为mysql的路由,使用OwnerController控制器中的mysql方法，为路由起一个msyql的别名
 ** 当我们访问`http://localhost:/根目录/public/mysql`后就会出现Hellow world
 ### Model的使用
 * 在./app目录下创建search.php
