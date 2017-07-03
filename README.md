@@ -206,7 +206,7 @@ public function mysql()
 ### view的创建及使用
 #### view的创建
 * 通常我们会为用到的Controller创建对应的view文件夹，如：在./resources/views下创建一个owner文件夹在里面我们创建一个mysql.blade.php(你也可直接创建mysql.php,使用mysql.blade.php的好处是我们能使用blade模板使用里面的各种标签)
-	*我们在里面写一些简单的html
+	* 我们在里面写一些简单的html
 ```html
 <!DOCTYPE html>
 <html>
@@ -214,7 +214,7 @@ public function mysql()
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>test</title>
-	<link rel="stylesheet" href="{{ URL::asset('css/test.css') }}" type="text/css">
+	<link rel="stylesheet" href="" type="text/css">
 </head>
 <body>
 <div class="test">
@@ -236,4 +236,10 @@ public function mysql()
     }
 ```
 * 我们访问`http://localhost:/根目录/public/mysql`就会出现Hellow world
+#### view中blade模板的实用标签(循环输出数组)
+```php
+@foreach($workout as $val)
+          <p >{{$val->userName}}</p>
+@endforeach
+```
 
