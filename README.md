@@ -45,7 +45,8 @@ DB_DATABASE=数据库名
 DB_USERNAME=用户名
 DB_PASSWORD=密码
 ```
-### 创建控制器及其使用
+### 控制器的创建及其使用
+#### 创建Controller
 * 在./app/Http/Controllers下创建OwnerController.php(注意控制器命名规则~Controller.php)
 * 基本的Controller模型
 ```php
@@ -60,7 +61,7 @@ class OwnerController extends Controller
 }
 
 ```
-* Controller的使用
+#### Controller的使用
 	* 在./app/Http/routes.php中添加路由
 	```php
 	Route::any('mysql',[
@@ -70,7 +71,8 @@ class OwnerController extends Controller
 	```
 	* 这段代码作用为添加一个名为mysql的路由,使用OwnerController控制器中的mysql方法，为路由起一个msyql的别名
 * 当我们访问`http://localhost:/根目录/public/mysql`后就会出现Hellow world.
-### Model的使用
+### Model的创建及使用
+#### Model的创建
 * 在./app目录下创建search.php
 * 基本的Model模型
 ```php
@@ -109,4 +111,4 @@ class search extends Model
      // }
 }
 ```
-
+#### Model的使用
