@@ -70,7 +70,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class search extends Model//注意search与文件名相同
+class search extends Model
 {
 	//指定表名
     protected $table='search';
