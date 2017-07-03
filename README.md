@@ -34,3 +34,14 @@ return 'test';
 		```
 		* 这是linux系统下的重启命令，window下可以打开任务管理器，选择服务，找到apache右键重启启动服务
 * 现在我们可以通过访问`localhost/laravel/public/test`得到test字样了。
+## 2017/7/3
+### laravel中关于数据库连接的配置
+* 配置文件在`.env`中
+```
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=数据库名
+DB_USERNAME=用户名
+DB_PASSWORD=密码
+```
