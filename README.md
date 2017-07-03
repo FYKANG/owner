@@ -46,43 +46,37 @@ DB_USERNAME=用户名
 DB_PASSWORD=密码
 ```
 * Model的使用
+	** 在./app目录下创建search.php
 	** 基本的Model模型
 	```
 	<?php
-
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
-
-class search extends Model
-{
-	//指定表名
-    protected $table='search';
-
-    //指定主键
-    protected $primaryKey='id';
-
-    //设置允许批量赋值的字段
-    protected  $fillable=['userName'];
-    
-    //指定不允许批量赋值的字段
-     protected $guarded=[];
-
-    //是否时间自动维护
-     public $timestamps=true;
-
-
-
-     //将时间变为时间戳
-     // protected function getDateFormat(){
-
-     // 	return time();
-     // }
-     //关闭自动格式化时间戳
-     // protected function asDateTime($val){
-     // 	return $val;
-     // }
-
-
-}
+	namespace App;
+	use Illuminate\Database\Eloquent\Model;
+	class search extends Model//注意search与文件名相同
+	{
+		//指定表名(此处指定表名为search)
+   	 	protected $table='search';
+		
+    		//指定主键
+    		protected $primaryKey='id';
+		
+    		//设置允许批量赋值的字段
+    		protected  $fillable=['userName'];
+		
+    		//指定不允许批量赋值的字段
+     		protected $guarded=[];
+		
+    		//是否时间自动维护
+     		public $timestamps=true;
+		
+     		//将时间变为时间戳
+     		// protected function getDateFormat(){
+     		// 	return time();
+     		// }
+		
+     		//关闭自动格式化时间戳
+     		// protected function asDateTime($val){
+     		// 	return $val;
+     		// }
+	}
 	```
