@@ -112,6 +112,8 @@ class search extends Model
 }
 ```
 #### Model的使用
+* 在控制器中为model添加命名空间`use App\Owner;`
+* 以下我们会用到DB模型所以需要添加命名空间`use Illuminate\Support\Facades\DB;`
 * 在控制器中添加一个方法
 ```php
 public function mysql()
@@ -201,3 +203,37 @@ public function mysql()
 
     }
 ```
+### view的创建及使用
+#### view的创建
+* 通常我们会为用到的Controller创建对应的view文件夹，如：在./resources/views下创建一个owner文件夹在里面我们创建一个mysql.blade.php(你也可直接创建mysql.php,使用mysql.blade.php的好处是我们能使用blade模板使用里面的各种标签)
+	*我们在里面写一些简单的html
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>test</title>
+	<link rel="stylesheet" href="{{ URL::asset('css/test.css') }}" type="text/css">
+</head>
+<body>
+<div class="test">
+          <p >{{$workout}}</p>
+</div>
+</body>
+</html>	
+```
+#### view的使用
+* 在控制器中的方法中我们添加以下方法
+```
+ public function mysql()
+    {
+
+    	// 向模板中传递数据
+    	return view('owner/mysql',[
+    		'workout'=>'Hellow World'
+		]);
+    }
+```
+* 我们访问`http://localhost:/根目录/public/mysql`就会出现Hellow world
+
