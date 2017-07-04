@@ -255,3 +255,13 @@ public function mysql()
 ```html
 <script src="{{ URL::asset('js/test.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 ```
+## 2017/7/4
+### 使用Simple QrCode库进行二维码转换
+#### Simple QrCode的安装
+* 首先,添加 QrCode 包添加到你的 composer.json 文件的 require 里:
+```json
+"require": {
+    "simplesoftwareio/simple-qrcode": "~1"
+}
+```
+* 然后,运行 composer update 
