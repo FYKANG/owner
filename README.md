@@ -264,4 +264,19 @@ public function mysql()
     "simplesoftwareio/simple-qrcode": "~1"
 }
 ```
-* 然后,运行 composer update 
+* 然后,运行 
+```
+# composer update 
+```
+* 添加 Service Provider(laravel5的注册方法)
+	* 注册SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class 至 config/app.php 的 providers 数组里.
+* 添加 Aliases(laravel5的注册方法)
+	* 注册'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class 至 config/app.php 的 aliases 数组里.
+#### Simple QrCode的使用
+* 在blade模型模板中添加以下代码(具体的使用方法可以参[考官方文档](https://www.simplesoftware.io/docs/simple-qrcode/zh#docs-ideas))
+```html
+<div class="visible-print text-center">
+    {!! QrCode::size(100)->generate(Request::url()); !!}
+    <p>Scan me to return to the original page.</p>
+</div>
+```
