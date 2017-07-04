@@ -12,7 +12,9 @@
 @foreach($workout as $val)
           <p >{{$val->userName}}</p>
 @endforeach
-
+<div class="visible-print text-center">
+    {!! QrCode::size(100)->generate('Hello,LaravelAcademy!'); !!}
+    <p>Scan me to return to the original page.</p>
 </div>
 </div>
 </body>
