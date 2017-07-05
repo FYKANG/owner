@@ -280,3 +280,96 @@ public function mysql()
     <p>Scan me to return to the original page.</p>
 </div>
 ```
+## 2017/7/5
+### request以及Session
+```php
+<?php
+
+namespace App\Http\Controllers;	
+use App\Owner;		//MOdel的调用
+use App\search;		//MOdel的调用
+use Illuminate\Support\Facades\DB;	//查询构造器的调用
+use Illuminate\Http\Request; 	//调用Request
+use Illuminate\Support\Facades\Session;	//调用Session模型
+class OwnerController extends Controller
+{
+    public function mysql(Request $request)
+    {
+
+    	//request模型
+
+	    	//取值
+	    	//$request->input('key');
+
+	    	//判断是否存在数据
+	    	// $request->has('key');
+
+	    	//获取全部参数
+	    	// $request->all();
+
+	    	//判断请求类型
+	    	// $request->method();
+
+	    	//判断是否为指定类型
+	    	// $request->isMethod('GET');
+
+	    	//判断是否为ajax请求
+	    	// $request->ajax();
+
+	    	//判断指定请求地址是否正确
+	    	//$request->is('mysql');
+
+	    	//获取当前url
+	    	//$request->url();
+	    	
+
+	    //session操作
+
+	    	//HTTP request session()
+	    		//session存值
+	    		// $request->session()->put('key','valuesl');
+	    		//session取值
+	    		// dd($request->session()->get('key4'));
+
+    		//session()辅助函数
+	    		//存
+	    		// session()->put('key2','lalues2');
+	    		//取
+	    		// session()->get('key2');
+
+    		//Session模型
+	    		//存
+	    		// Session::put('key3','values3');
+    			// Session::put(['key3'=>'values33']);
+
+	    		// //取
+	    		// dd(Session::get('key3'));
+    			//添加不存在时的默认值
+    			// Session::get('key3','none');
+
+	    		//把数据放入Session的数组中
+	    			// Session::push('key4','values41');
+	    			// Session::push('key4','values42');
+
+
+	    		//取后删除
+	    			// dd(Session::pull('key4'));
+
+	    		//取出所有值
+	    			//Session::all();
+
+	    		//判断是否存在某key
+	    			//Session::has('key);
+
+    			//删除某个key
+    			//Session::forget('key');
+
+    			//删除全部ksession
+    			// Session::flush();
+
+    			//暂存数据访问一次后消失
+    			// Session::flash('key','values');
+    }
+
+}
+```
