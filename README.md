@@ -391,7 +391,7 @@ class Time
     public function handle($request, Closure $next)
     {
         if(time()<strtotime('2017-07-06')){
-            return redirect()->route('mysql');
+            return redirect()->route('ready');
            
         }
         else
@@ -399,3 +399,28 @@ class Time
     }
 }
 ```
+* 注册中间件，在/App/Http/Kenmel.php中的$routeMiddleware中注册，示例如下(注意键名time首字母小写)
+```php
+    protected $routeMiddleware = [
+
+        'time' => \App\Http\Middleware\Time::class,
+
+    ];
+```
+* 将中间件应用到路由中
+	* 创建路由群组(注意'middleware'=>'time'首字母都是小写)
+	```php
+		Route::any('ready',[
+		'uses'=>'OwnerController@ready',
+		'as'=>'ready'
+		]);
+	Route::group(['middleware'=>'time'], function() {
+    	Route::any('active',[
+		'uses'=>'OwnerController@active',
+		'as'=>'active'
+		]);
+	});
+	```
+* 当我们访问active控制器时会先去到中间件进行条件判断，示例中如果当前时间在2017-07-06以前则会定向到ready控制器，反之则定向到当前控制器
+
+
