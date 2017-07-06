@@ -373,3 +373,29 @@ class OwnerController extends Controller
 
 }
 ```
+## 2017/7/06
+### Middleware中间件的是使用
+#### 创建中间件
+* 在/App/Http/Middleware下创建中间件，命名为Time.php
+* 基本的中间件模型
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class Time
+{
+
+    public function handle($request, Closure $next)
+    {
+        if(time()<strtotime('2017-07-06')){
+            return redirect()->route('mysql');
+           
+        }
+        else
+            return $next($request);
+    }
+}
+```
