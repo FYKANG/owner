@@ -422,5 +422,9 @@ class Time
 	});
 	```
 * 当我们访问active控制器时会先去到中间件进行条件判断，示例中如果当前时间在2017-07-06以前则会定向到ready控制器，反之则定向到当前控制器
-
+#### 关于post数据的提交
+* 使用post提交数据的时候laravel默认开启了Csrf验证所以我们需要在from表单中添加以下代码
+```html
+<input type="hidden" name="_token"         value="{{ csrf_token() }}"/>
+```
 
