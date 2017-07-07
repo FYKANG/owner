@@ -436,25 +436,35 @@ class Time
 ### 控制器验证
 * 基础流程
 	* 进入$this->validate()进行字段验证如果通过验证则继续执行后面的代码，如果验证失败则抛出一个全局的$errors对象然后返回上一层路由
-		* 基本的验证模型
-		```php
-			public function fromsave(Request $request){
+* 基本的验证模型
+	```php
+		public function fromsave(Request $request){
 
-				$this->validate($request,[
-					//字段的规则设定
-					'test'=>'required|min:1|max:2',
-						'test2'=>'required|integer',
-					],[
-					//错误信息的提示设置
-						'required'=>':attribute 必填',
-						'integer'=>':attribute 数字',
-						'max'=>':attribute 最大为2位数',
-						'min'=>':attribute 最小为1位数',
-					],[
-					//错误字段的名称设置
-						'test'=>'测试1',
-						'test2'=>'测试2'
-					]);
-			}
-		```
-
+			$this->validate($request,[
+				//字段的规则设定
+				'test'=>'required|min:1|max:2',
+					'test2'=>'required|integer',
+				],[
+				//错误信息的提示设置
+					'required'=>':attribute 必填',
+					'integer'=>':attribute 数字',
+					'max'=>':attribute 最大为2位数',
+					'min'=>':attribute 最小为1位数',
+				],[
+				//错误字段的名称设置
+					'test'=>'测试1',
+					'test2'=>'测试2'
+				]);
+				
+		}
+	```
+* $errors在模型中的基本调用
+	```html
+	@if(count($errors))
+		<ul>
+			@foreach($errors->all() as $error)
+				<li>{{$error}}</li>
+			@endforeach
+		</ul>
+	@endif
+	```
