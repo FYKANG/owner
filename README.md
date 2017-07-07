@@ -378,60 +378,60 @@ class OwnerController extends Controller
 #### 创建中间件
 * 在/App/Http/Middleware下创建中间件，命名为Time.php
 * 基本的中间件模型
-```php
-<?php
-
-namespace App\Http\Middleware;
-
-use Closure;
-
-class Time
-{
-
-    public function handle($request, Closure $next)
-    {
-        if(time()<strtotime('2017-07-06')){
-            return redirect()->route('ready');
-           
-        }
-        else
-            return $next($request);
-    }
-}
-```
+	```php
+	<?php
+	
+	namespace App\Http\Middleware;
+	
+	use Closure;
+	
+	class Time
+	{
+	
+	    public function handle($request, Closure $next)
+	    {
+	        if(time()<strtotime('2017-07-06')){
+	            return redirect()->route('ready');
+	           
+	        }
+	        else
+	            return $next($request);
+	    }
+	}
+	```
 * 注册中间件，在/App/Http/Kenmel.php中的$routeMiddleware中注册，示例如下(注意键名time首字母小写)
-```php
-    protected $routeMiddleware = [
-
-        'time' => \App\Http\Middleware\Time::class,
-
-    ];
-```
+	```php
+	    protected $routeMiddleware = [
+	
+	        'time' => \App\Http\Middleware\Time::class,
+	
+	    ];
+	```
 * 将中间件应用到路由中
 	* 创建路由群组(注意'middleware'=>'time'首字母都是小写)
-	```php
-		Route::any('ready',[
-		'uses'=>'OwnerController@ready',
-		'as'=>'ready'
-		]);
-	Route::group(['middleware'=>'time'], function() {
-    	Route::any('active',[
-		'uses'=>'OwnerController@active',
-		'as'=>'active'
-		]);
-	});
-	```
+		```php
+			Route::any('ready',[
+			'uses'=>'OwnerController@ready',
+			'as'=>'ready'
+			]);
+		Route::group(['middleware'=>'time'], function() {
+    		Route::any('active',[
+			'uses'=>'OwnerController@active',
+			'as'=>'active'
+			]);
+		});
+		```
 * 当我们访问active控制器时会先去到中间件进行条件判断，示例中如果当前时间在2017-07-06以前则会定向到ready控制器，反之则定向到当前控制器
 #### 关于post数据的提交
 * 使用post提交数据的时候laravel默认开启了Csrf验证所以我们需要在from表单中添加以下代码
 	* 第一种方式
-	```html
-	<input type="hidden" name="_token"         value="{{ csrf_token() }}"/>
-	```
+		```html
+		<input type="hidden" name="_token"         value="{{ csrf_token() }}"/>
+		```
 	* 第二种方式
-	```html
-	{{csrf_field()}}
-	```
+		```html
+		{{csrf_field()}}
+		```
 ## 2017/7/7
 ### 控制器验证
 * 基础流程
