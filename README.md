@@ -427,4 +427,8 @@ class Time
 ```html
 <input type="hidden" name="_token"         value="{{ csrf_token() }}"/>
 ```
+* 或者是这个代码
+```html
+{{csrf_field()}}
+```
 
