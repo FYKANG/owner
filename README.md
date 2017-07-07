@@ -34,7 +34,7 @@ return 'test';
 		```
 		* 这是linux系统下的重启命令，window下可以打开任务管理器，选择服务，找到apache右键重启启动服务
 * 现在我们可以通过访问`localhost/laravel/public/test`得到test字样了。
-## 2017/7/3
+## 2017/07/03
 ### laravel中关于数据库连接的配置
 * 配置文件在`.env`中
 ```
@@ -255,7 +255,7 @@ public function mysql()
 ```html
 <script src="{{ URL::asset('js/test.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 ```
-## 2017/7/4
+## 2017/07/04
 ### 使用Simple QrCode库进行二维码转换
 #### Simple QrCode的安装
 * 首先,添加 QrCode 包添加到你的 composer.json 文件的 require 里:
@@ -280,7 +280,7 @@ public function mysql()
     <p>Scan me to return to the original page.</p>
 </div>
 ```
-## 2017/7/5
+## 2017/07/05
 ### request以及Session
 ```php
 <?php
@@ -373,7 +373,7 @@ class OwnerController extends Controller
 
 }
 ```
-## 2017/7/06
+## 2017/07/06
 ### Middleware中间件的是使用
 #### 创建中间件
 * 在/App/Http/Middleware下创建中间件，命名为Time.php
@@ -432,7 +432,7 @@ class OwnerController extends Controller
 		```html
 		{{csrf_field()}}
 		```
-## 2017/7/7
+## 2017/07/07
 ### 控制器验证
 * 基础流程
 	* 进入$this->validate()进行字段验证如果通过验证则继续执行后面的代码，如果验证失败则抛出一个全局的$errors对象然后返回上一层路由
