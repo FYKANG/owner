@@ -491,7 +491,7 @@ class OwnerController extends Controller
 			"simplesoftwareio/simple-qrcode":"~1"
 		},
 		```
-	* 通过composer update进行库的管理
+	* 通过`composer update`使配置文件生效
 ### Artisan的基础使用
 * list查看所有可用命令
 	```
