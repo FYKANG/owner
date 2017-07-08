@@ -468,3 +468,41 @@ class OwnerController extends Controller
 		</ul>
 	@endif
 	```
+## 2017/07/08
+### composer的基础使用
+* 配置文件的初始化
+	```
+	composer init
+	```
+* search命令的使用
+	```
+	composer search laravel
+	```
+* show命令的使用
+	```
+	composer show --all laravel
+	```
+* 使用composer.json进行管理	
+	* 在生成的composer.json中写入项目的库信息
+		```
+		  "require": {
+			"php": ">=5.5.9",
+			"laravel/framework": "5.2.*",
+			"simplesoftwareio/simple-qrcode":"~1"
+		},
+		```
+	* 通过composer update进行库的管理
+### Artisan的基础使用
+* list查看所有可用命令
+	```
+	php artisan list
+	```
+* help查看帮助信息(查看make命令帮助)
+	```
+	php artisan help help make
+	```
+* make创建(创建一个OwnerControlller控制器)
+	```
+	php artisan make:controller OwnerControlller
+	```
+	
