@@ -1,5 +1,5 @@
 # OWNER
-## 2017/6/30
+## 2017/06/30
   * 我重新建了一个库，原本打算用TP做为框架写这个项目的，但是考虑到正在学习laravel框架，就打算用laravel框架来进行项目。
   * 服务器使用centos 7系统，laravel5.2框架，php版本为5.6.3，使用mysql数据库。
   * 关于laravel的安装
@@ -13,7 +13,7 @@
     ```
     * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
     ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
-## 2017/7/1
+## 2017/07/01
 ### laravel的路由使用
 * 在根目录下的app/Http/routes.php添加路由，路由的基本请求类型有get,post,put,patch,delete,options.
 ### 基本的书写格式
