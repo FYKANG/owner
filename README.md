@@ -548,3 +548,4 @@ class OwnerController extends Controller
 ### Debug模式
 * 配置目录config/app(调用.env文件配置默认为`APP_DEBUG=true`)
 	* 关闭后只会出现以下信息
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelDebug.png)
