@@ -545,3 +545,6 @@ class OwnerController extends Controller
 	//存在时删除缓存返回true，不存在时返回false
 	Cache::forget('key');	//(键)
 	```
+### Debug模式
+* 配置目录config/app(调用.env文件配置默认为`APP_DEBUG=true`)
+	* 关闭后只会出现以下信息
