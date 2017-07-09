@@ -505,4 +505,18 @@ class OwnerController extends Controller
 	```
 	php artisan make:controller OwnerControlller
 	```
-	
+## 2017/07/09
+### laravel的缓存使用
+* laravel的缓存配置目录config/cache.php
+* 缓存的命名空间`use Illuminate\Support\Facades\Cache;	//调用缓存`
+* laravel的基本方法使用
+	* put()
+	```php
+	//键,值,缓存时间(无返回值)
+	Cache::put('key', $value, $minutes);
+	```
+	* get()
+	```php
+	//键,默认值
+	var_dump(Cache::get('key', 'default'));
+	```
