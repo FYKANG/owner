@@ -510,13 +510,38 @@ class OwnerController extends Controller
 * laravel的缓存配置目录config/cache.php
 * 缓存的命名空间`use Illuminate\Support\Facades\Cache;	//调用缓存`
 * laravel的基本方法使用
-	* put()
+	* put('key', $value, $minutes)
 	```php
-	//键,值,缓存时间(无返回值)
-	Cache::put('key', $value, $minutes);
+	//添加缓存，不会判断键名是否已存在，无返回值,直接覆盖添加
+	Cache::put('key', $value, $minutes);	//(键,值,缓存时间分钟数)
 	```
-	* get()
+	* add('key',  $value, $minutes)
 	```php
-	//键,默认值
-	var_dump(Cache::get('key', 'default'));
+	//添加缓存会判断键名是否已存在，有返回值,当键名已存在是返回false，不存在时返回true
+	Cache::add('key',  $value, $minutes);	//(键,值,缓存时间分钟数)
+	```
+	* forever('key', $value)
+	```php
+	//添加缓存，永久保存
+	Cache::forever('key', $value);	//(键,值)
+	```
+	* has('key')
+	```php
+	//存在时返回true，不存在返回false
+	Cache::has('key');	//(键)
+	```
+	* get('key', 'default')
+	```php
+	//获取缓存内容
+	Cache::get('key', 'default');	//(键,默认值)
+	```
+	* Cache::pull('key')
+	```php
+	//取出后删除
+	Cache::pull('key');	//(键)
+	```
+	* Cache::forget('key');
+	```php
+	//存在时删除缓存返回true，不存在时返回false
+	Cache::forget('key');	//(键)
 	```
