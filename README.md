@@ -1,5 +1,5 @@
 # OWNER
-## 2017/6/30
+## 2017/06/30
   * 我重新建了一个库，原本打算用TP做为框架写这个项目的，但是考虑到正在学习laravel框架，就打算用laravel框架来进行项目。
   * 服务器使用centos 7系统，laravel5.2框架，php版本为5.6.3，使用mysql数据库。
   * 关于laravel的安装
@@ -13,7 +13,7 @@
     ```
     * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
     ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
-## 2017/7/1
+## 2017/07/01
 ### laravel的路由使用
 * 在根目录下的app/Http/routes.php添加路由，路由的基本请求类型有get,post,put,patch,delete,options.
 ### 基本的书写格式
@@ -34,7 +34,7 @@ return 'test';
 		```
 		* 这是linux系统下的重启命令，window下可以打开任务管理器，选择服务，找到apache右键重启启动服务
 * 现在我们可以通过访问`localhost/laravel/public/test`得到test字样了。
-## 2017/7/3
+## 2017/07/03
 ### laravel中关于数据库连接的配置
 * 配置文件在`.env`中
 ```
@@ -255,3 +255,296 @@ public function mysql()
 ```html
 <script src="{{ URL::asset('js/test.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 ```
+## 2017/07/04
+### 使用Simple QrCode库进行二维码转换
+#### Simple QrCode的安装
+* 首先,添加 QrCode 包添加到你的 composer.json 文件的 require 里:
+```json
+"require": {
+    "simplesoftwareio/simple-qrcode": "~1"
+}
+```
+* 然后,运行 
+```
+# composer update 
+```
+* 添加 Service Provider(laravel5的注册方法
+	* 注册SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class 至 config/app.php 的 providers 数组里.
+* 添加 Aliases(laravel5的注册方法
+	* 注册'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class 至 config/app.php 的 aliases 数组里.
+#### Simple QrCode的使用
+* 在blade模型模板中添加以下代码(具体的使用方法可以参考[simple-qrcode官方文档](https://www.simplesoftware.io/docs/simple-qrcode/zh#docs-ideas))
+```html
+<div class="visible-print text-center">
+    {!! QrCode::size(100)->generate(Request::url()); !!}
+    <p>Scan me to return to the original page.</p>
+</div>
+```
+## 2017/07/05
+### request以及Session
+```php
+<?php
+
+namespace App\Http\Controllers;	
+use App\Owner;		//MOdel的调用
+use App\search;		//MOdel的调用
+use Illuminate\Support\Facades\DB;	//查询构造器的调用
+use Illuminate\Http\Request; 	//调用Request
+use Illuminate\Support\Facades\Session;	//调用Session模型
+class OwnerController extends Controller
+{
+    public function mysql(Request $request)
+    {
+
+    	//request模型
+
+	    	//取值
+	    	//$request->input('key');
+
+	    	//判断是否存在数据
+	    	// $request->has('key');
+
+	    	//获取全部参数
+	    	// $request->all();
+
+	    	//判断请求类型
+	    	// $request->method();
+
+	    	//判断是否为指定类型
+	    	// $request->isMethod('GET');
+
+	    	//判断是否为ajax请求
+	    	// $request->ajax();
+
+	    	//判断指定请求地址是否正确
+	    	//$request->is('mysql');
+
+	    	//获取当前url
+	    	//$request->url();
+	    	
+
+	    //session操作
+
+	    	//HTTP request session()
+	    		//session存值
+	    		// $request->session()->put('key','valuesl');
+	    		//session取值
+	    		// dd($request->session()->get('key4'));
+
+    		//session()辅助函数
+	    		//存
+	    		// session()->put('key2','lalues2');
+	    		//取
+	    		// session()->get('key2');
+
+    		//Session模型
+	    		//存
+	    		// Session::put('key3','values3');
+    			// Session::put(['key3'=>'values33']);
+
+	    		// //取
+	    		// dd(Session::get('key3'));
+    			//添加不存在时的默认值
+    			// Session::get('key3','none');
+
+	    		//把数据放入Session的数组中
+	    			// Session::push('key4','values41');
+	    			// Session::push('key4','values42');
+
+
+	    		//取后删除
+	    			// dd(Session::pull('key4'));
+
+	    		//取出所有值
+	    			//Session::all();
+
+	    		//判断是否存在某key
+	    			//Session::has('key);
+
+    			//删除某个key
+    			//Session::forget('key');
+
+    			//删除全部ksession
+    			// Session::flush();
+
+    			//暂存数据访问一次后消失
+    			// Session::flash('key','values');
+    }
+
+}
+```
+## 2017/07/06
+### Middleware中间件的是使用
+#### 创建中间件
+* 在/App/Http/Middleware下创建中间件，命名为Time.php
+* 基本的中间件模型
+	```php
+	<?php
+	
+	namespace App\Http\Middleware;
+	
+	use Closure;
+	
+	class Time
+	{
+	
+	    public function handle($request, Closure $next)
+	    {
+	        if(time()<strtotime('2017-07-06')){
+	            return redirect()->route('ready');
+	           
+	        }
+	        else
+	            return $next($request);
+	    }
+	}
+	```
+* 注册中间件，在/App/Http/Kenmel.php中的$routeMiddleware中注册，示例如下(注意键名time首字母小写)
+	```php
+	    protected $routeMiddleware = [
+	
+	        'time' => \App\Http\Middleware\Time::class,
+	
+	    ];
+	```
+* 将中间件应用到路由中
+	* 创建路由群组(注意'middleware'=>'time'首字母都是小写)
+		```php
+			Route::any('ready',[
+			'uses'=>'OwnerController@ready',
+			'as'=>'ready'
+			]);
+		Route::group(['middleware'=>'time'], function() {
+    		Route::any('active',[
+			'uses'=>'OwnerController@active',
+			'as'=>'active'
+			]);
+		});
+		```
+* 当我们访问active控制器时会先去到中间件进行条件判断，示例中如果当前时间在2017-07-06以前则会定向到ready控制器，反之则定向到当前控制器
+#### 关于post数据的提交
+* 使用post提交数据的时候laravel默认开启了Csrf验证所以我们需要在from表单中添加以下代码
+	* 第一种方式
+		```html
+		<input type="hidden" name="_token"         value="{{ csrf_token() }}"/>
+		```
+	* 第二种方式
+		```html
+		{{csrf_field()}}
+		```
+## 2017/07/07
+### 控制器验证
+* 基础流程
+	* 进入$this->validate()进行字段验证如果通过验证则继续执行后面的代码，如果验证失败则抛出一个全局的$errors对象然后返回上一层路由
+* 基本的验证模型
+	```php
+		public function fromsave(Request $request){
+
+			$this->validate($request,[
+				//字段的规则设定
+				'test'=>'required|min:1|max:2',
+					'test2'=>'required|integer',
+				],[
+				//错误信息的提示设置
+					'required'=>':attribute 必填',
+					'integer'=>':attribute 数字',
+					'max'=>':attribute 最大为2位数',
+					'min'=>':attribute 最小为1位数',
+				],[
+				//错误字段的名称设置
+					'test'=>'测试1',
+					'test2'=>'测试2'
+				]);
+				
+		}
+	```
+* $errors在模型中的基本调用
+	```html
+	@if(count($errors))
+		<ul>
+			@foreach($errors->all() as $error)
+				<li>{{$error}}</li>
+			@endforeach
+		</ul>
+	@endif
+	```
+## 2017/07/08
+### composer的基础使用
+* 配置文件的初始化
+	```
+	composer init
+	```
+* search命令的使用
+	```
+	composer search laravel
+	```
+* show命令的使用
+	```
+	composer show --all laravel
+	```
+* 使用composer.json进行管理	
+	* 在生成的composer.json中写入项目的库信息
+		```
+		  "require": {
+			"php": ">=5.5.9",
+			"laravel/framework": "5.2.*",
+			"simplesoftwareio/simple-qrcode":"~1"
+		},
+		```
+	* 通过`composer update`使配置文件生效
+### Artisan的基础使用
+* list查看所有可用命令
+	```
+	php artisan list
+	```
+* help查看帮助信息(查看make命令帮助)
+	```
+	php artisan help help make
+	```
+* make创建(创建一个OwnerControlller控制器)
+	```
+	php artisan make:controller OwnerControlller
+	```
+## 2017/07/09
+### laravel的缓存使用
+* laravel的缓存配置目录config/cache.php
+* 缓存的命名空间`use Illuminate\Support\Facades\Cache;	//调用缓存`
+* laravel的基本方法使用
+	* put('key', $value, $minutes)
+	```php
+	//添加缓存，不会判断键名是否已存在，无返回值,直接覆盖添加
+	Cache::put('key', $value, $minutes);	//(键,值,缓存时间分钟数)
+	```
+	* add('key',  $value, $minutes)
+	```php
+	//添加缓存会判断键名是否已存在，有返回值,当键名已存在是返回false，不存在时返回true
+	Cache::add('key',  $value, $minutes);	//(键,值,缓存时间分钟数)
+	```
+	* forever('key', $value)
+	```php
+	//添加缓存，永久保存
+	Cache::forever('key', $value);	//(键,值)
+	```
+	* has('key')
+	```php
+	//存在时返回true，不存在返回false
+	Cache::has('key');	//(键)
+	```
+	* get('key', 'default')
+	```php
+	//获取缓存内容
+	Cache::get('key', 'default');	//(键,默认值)
+	```
+	* Cache::pull('key')
+	```php
+	//取出后删除
+	Cache::pull('key');	//(键)
+	```
+	* Cache::forget('key');
+	```php
+	//存在时删除缓存返回true，不存在时返回false
+	Cache::forget('key');	//(键)
+	```
+### Debug模式
+* 配置目录config/app(调用.env文件配置默认为`APP_DEBUG=true`)
+	* 关闭后只会出现以下信息
