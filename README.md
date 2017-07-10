@@ -549,3 +549,36 @@ class OwnerController extends Controller
 * 配置目录config/app(调用.env文件配置默认为`APP_DEBUG=true`)
 	* 关闭后只会出现以下信息<br>
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelDebug.png)
+## 2017//7/10
+### HTTP错误
+* abort
+	```php
+	//抛出异常,抛出到模板503中，路径为`./resources/views/errors/503.blade.php`(可以在当前目录自定义模板)
+	abort('503');
+	```
+* 404错误自动抛出
+	* `./resources/views/errors/503.blade.php`中创建`404.blade.php`
+### 日志
+* 日志模式有
+	* single —— 将日志记录到单个文件中。该日志处理器对应Monolog的StreamHandler。
+	* daily —— 以日期为单位将日志进行归档，每天创建一个新的日志文件记录日志。该日志处理器 对应Monolog的RotatingFileHandler。
+	* syslog —— 将日志记录到syslog中。该日志处理器 对应Monolog的SyslogHandler。
+	* errorlog —— 将日志记录到PHP的error_log中。该日志处理器 对应Monolog的ErrorLogHandler。
+* 错误级别
+	```php
+	Log::emergency($error);     //紧急状况，比如系统挂掉
+	Log::alert($error);     //需要立即采取行动的问题，比如整站宕掉，数据库异常等，这种状况应该通过短信提醒 
+	Log::critical($error);     //严重问题，比如：应用组件无效，意料之外的异常
+	Log::error($error);     //运行时错误，不需要立即处理但需要被记录和监控
+	Log::warning($error);    //警告但不是错误，比如使用了被废弃的API
+	Log::notice($error);     //普通但值得注意的事件
+	Log::info($error);     //感兴趣的事件，比如登录、退出
+	Log::debug($error);     //详细的调试信息
+	```
+* 命名空间
+	* `use Illuminate\Support\Facades\Log;`
+* 日志配置
+	* 在./.env中配置(如调用daily模式)
+	```php
+	APP_LOG=daily
+	```
