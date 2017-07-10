@@ -564,7 +564,7 @@ class OwnerController extends Controller
 	* daily —— 以日期为单位将日志进行归档，每天创建一个新的日志文件记录日志。该日志处理器 对应Monolog的RotatingFileHandler。
 	* syslog —— 将日志记录到syslog中。该日志处理器 对应Monolog的SyslogHandler。
 	* errorlog —— 将日志记录到PHP的error_log中。该日志处理器 对应Monolog的ErrorLogHandler。
-* 错误级别
+* 错误级别以及基础使用
 	```php
 	Log::emergency($error);     //紧急状况，比如系统挂掉
 	Log::alert($error);     //需要立即采取行动的问题，比如整站宕掉，数据库异常等，这种状况应该通过短信提醒 
@@ -582,3 +582,6 @@ class OwnerController extends Controller
 	```php
 	APP_LOG=daily
 	```
+* 查看错误日志
+	* 位于`./storage/logs`中
+
