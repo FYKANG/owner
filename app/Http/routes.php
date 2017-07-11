@@ -48,6 +48,17 @@ Route::any('session', [
 	]);
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', [
+	'uses'=>'HomeController@index',
+	'as'=>'home',
+	]);
 
-Route::any('/wechat', 'WechatController@serve');
+Route::any('/wechat', [
+	'uses'=>'WechatController@serve',
+	'as'=>'wechat',
+	]);
+
+Route::any('demo', [
+	'uses'=>'WechatController@demo',
+	'as'=>'demo',
+	]);

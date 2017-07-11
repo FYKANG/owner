@@ -9,7 +9,7 @@ use Illuminate\Http\Request; 	//调用Request
 use Illuminate\Support\Facades\Session;	//调用Session模型
 use Illuminate\Support\Facades\Cache;	//调用缓存
 use Illuminate\Support\Facades\Log; 	//调用错误日志
-require app_path().'/tools/functions.php';
+use EasyWeChat\Foundation\Application;
 
 class OwnerController extends Controller
 {
@@ -215,6 +215,8 @@ class OwnerController extends Controller
 			//Cache::has('key');	//(键)
 	    	
 	    	// Log::info('info日志');
+	    	return view('owner.from');
+
 
     }
     public function session(Request $request){
@@ -228,9 +230,28 @@ class OwnerController extends Controller
 		//Cache::forget('key');	//(键)
     }
 
-    public function from(){
+    public function from(Application $wechat){
  		
-    	return view('owner/from');
+    	 $notice = $wechat->notice;
+
+
+    $userId = 'oLiRv1HwbBzQL5NHNr3VB8Ru-1uA';
+    $templateId = 'GlpcaxZK5rscHnXcNdtYE8rTAGwtbkWFuWr22_RTxS4';
+    $url = route('mysql');
+    $data = array(
+         "first"  => "bilibili",
+         "name"   => "b站",
+         "addr"  => "https://www.baidu.com/",
+         "time"	=>date('Y-m-d H:i:s', time()),
+         "remark" => "welcome！",
+        );
+    $result = $notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($userId)->send();
+    var_dump($result);
+    // {
+    //      "errcode":0,
+    //      "errmsg":"ok",
+    //      "msgid":200228332
+    //  }
     }
 
     public function fromsave(Request $request){
