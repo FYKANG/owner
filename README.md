@@ -584,4 +584,28 @@ class OwnerController extends Controller
 	```
 * 查看错误日志
 	* 位于`./storage/logs`中
-
+## 2017/7/11
+### 关于使用composer遇到的问题
+	* 更改镜像 
+		* 全局更改`composer config -g repositories.packagist composer http://packagist.phpcomposer.com`
+		* 项目内更改
+			```json
+			"repositories": [
+        		{"type": "composer", "url": "http://packagist.phpcomposer.com"},
+        		{"packagist": false}
+    		]
+			```
+	* 更改镜像后无法正常使用提示` Your configuration does not allow connection to http://packagist.phpcompose  r.com. See https://getcomposer.org/doc/06-config.md#secure-http for details.`
+	* 错误原因：原地址是需要https，改用镜像后使用的是http
+	* 解决方法
+		* 方法一
+			```
+	  			"config": {  
+        		"secure-http": false  
+    		} 
+			```
+		* 方法二
+			* 全局设置：
+			`composer config -g secure-http false`
+	
+	
