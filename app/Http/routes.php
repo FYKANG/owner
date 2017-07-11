@@ -22,8 +22,32 @@ Route::get('test', function() {
 Route::get('basic1', function () {
     return 'welcome';
 });
+
 Route::any('mysql',[
 	'uses'=>'OwnerController@mysql',
 	'as'=>'mysql'
 
 	]);
+
+Route::group(['middleware'=>'wechat'], function() {
+    Route::any('fromsave',[
+	'uses'=>'OwnerController@fromsave',
+	'as'=>'fromsave'
+
+	]);
+});
+
+Route::any('from', [
+	'uses'=>'OwnerController@from',
+	'as'=>'from',
+	]);
+
+Route::any('session', [
+	'uses'=>'OwnerController@session',
+	'as'=>'session',
+	]);
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+
+Route::any('/wechat', 'WechatController@serve');
