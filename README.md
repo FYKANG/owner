@@ -622,7 +622,7 @@ class OwnerController extends Controller
 		WECHAT_LOG_FILE=
 
 		WECHAT_OAUTH_SCOPES=用户信息机制选择
-		WECHAT_OAUTH_CALLBACK=授权回调页面域名:
+		WECHAT_OAUTH_CALLBACK=授权回调页面域名
 
 		WECHAT_PAYMENT_MERCHANT_ID=
 		WECHAT_PAYMENT_KEY=
@@ -649,5 +649,6 @@ class OwnerController extends Controller
 			Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
 			});
 			```
+	* 别把推送写在配置的url中，监听会导致推送一直重复执行
 	
 	
