@@ -607,5 +607,17 @@ class OwnerController extends Controller
 		* 方法二
 			* 全局设置：
 			`composer config -g secure-http false`
-	
+## 2017/07/12
+### easywechat的使用
+* `https://github.com/overtrue/laravel-wechat`
+* 遇到的问题
+	* 在 CSRF 中间件里排除微信相关的路由
+		* 具体方法：在./app/Http/Middleware/VerifyCsrfToken.php中的$except添加代码
+			```php
+			protected $except = [
+    			'wechat'
+   			 ];
+			```
+	* 直接访问`http://域名/public/wechat`会出现`BadRequestException in Guard.php line 343:Invalid request.`提示功能在微信端进行回复测试功能正常。目前尚未知原因。
+	* OAuth 中间件的使用注意
 	
