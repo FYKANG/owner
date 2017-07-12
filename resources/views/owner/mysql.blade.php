@@ -9,20 +9,14 @@
 </head>
 <body>
 <div class="test">
-@foreach($workout as $val)
-          <p >{{$val->userName}}</p>
-@endforeach
+<img src="{{$url}}" alt="">
+{{$user->getNickname()}}
 <div class="visible-print text-center">
     {!! QrCode::size(100)->generate('Hello,LaravelAcademy!'); !!}
     <p>Scan me to return to the original page.</p>
     {{route('session')}}
 </div>
-<form action="{{route('session')}}" method="post" accept-charset="utf-8">
-<input type="number" name="owner[userName]" value="" placeholder="test">
 
-<button >确定</button>
-  </div>
-</form>
 </div>
 </body>
 </html>

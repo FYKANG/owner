@@ -40,7 +40,7 @@ class WechatController extends Controller
     $server->setMessageHandler(function ($message) {
     // $message->FromUserName // 用户的 openid
     // $message->MsgType // 消息类型：event, text....
-    return "您好！欢迎关注我!";
+    return $message->EventKey;
     });
     $response = $server->serve();
     return $response; // Laravel 里请使用：return $response;
