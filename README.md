@@ -650,5 +650,5 @@ class OwnerController extends Controller
 			});
 			```
 	* 别把推送写在配置的url中，监听会导致推送一直重复执行
-	
+	* 添加和修改自定义菜单有一定的延迟，可以取消关注后重新关注就能马上看到效果了
 	
