@@ -611,6 +611,29 @@ class OwnerController extends Controller
 ### easywechat的使用
 * `https://github.com/overtrue/laravel-wechat`
 * 遇到的问题
+	* 配置如果使用.env方式配置请对应好相关字段
+		```
+		WECHAT_APPID=开发者ID(AppID)
+		WECHAT_SECRET=开发者密码(AppSecret)
+		WECHAT_TOKEN=令牌(Token)
+		WECHAT_AES_KEY=消息加解密密钥(EncodingAESKey)
+
+		WECHAT_LOG_LEVEL=
+		WECHAT_LOG_FILE=
+
+		WECHAT_OAUTH_SCOPES=用户信息机制选择
+		WECHAT_OAUTH_CALLBACK=授权回调页面域名:
+
+		WECHAT_PAYMENT_MERCHANT_ID=
+		WECHAT_PAYMENT_KEY=
+		WECHAT_PAYMENT_CERT_PATH=
+		WECHAT_PAYMENT_KEY_PATH=
+		WECHAT_PAYMENT_DEVICE_INFO=
+		WECHAT_PAYMENT_SUB_APP_ID=
+		WECHAT_PAYMENT_SUB_MERCHANT_ID=
+		WECHAT_ENABLE_MOCK=	
+		```
+	* 注意微信开发者的url配置为能访问到wechat控制器的路由
 	* 在 CSRF 中间件里排除微信相关的路由
 		* 具体方法：在./app/Http/Middleware/VerifyCsrfToken.php中的$except添加代码
 			```php
@@ -619,5 +642,12 @@ class OwnerController extends Controller
    			 ];
 			```
 	* 直接访问`http://域名/public/wechat`会出现`BadRequestException in Guard.php line 343:Invalid request.`提示功能在微信端进行回复测试功能正常。目前尚未知原因。
-	* OAuth 中间件的使用注意
+	* 使用中间件的时候用户信息机制选择无法通过`.env`直接配置
+		* 方案一:清除缓存`php artisan config:cache`
+		* 方案二：直接在路由中配置
+			```php
+			Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
+			});
+			```
+	
 	
