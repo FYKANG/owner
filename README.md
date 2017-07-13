@@ -657,3 +657,4 @@ class OwnerController extends Controller
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qr.png)
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrE.png)
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrC.png)
+* 在实践测试中发现如果不手动添加`errorCorrection('H')`容错率并不能达到H等级，会出现添加logo后无法识别的情况。
