@@ -584,7 +584,7 @@ class OwnerController extends Controller
 	```
 * 查看错误日志
 	* 位于`./storage/logs`中
-## 2017/7/11
+## 2017/07/11
 ### 关于使用composer遇到的问题
 * 更改镜像 
 	* 全局更改`composer config -g repositories.packagist composer http://packagist.phpcomposer.com`
