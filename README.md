@@ -651,4 +651,9 @@ class OwnerController extends Controller
 			```
 	* 别把推送写在配置的url中，监听会导致推送一直重复执行
 	* 添加和修改自定义菜单有一定的延迟，可以取消关注后重新关注就能马上看到效果了
-	
+## 2017/07/13
+### 关于Simple QrCode
+* 以下是官方描述
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qr.png)
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrE.png)
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrC.png)
