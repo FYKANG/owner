@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;	//调用缓存
 use Illuminate\Support\Facades\Log; 	//调用错误日志
 use EasyWeChat\Foundation\Application;	//实例化easywechat
 use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;	//wechat授权
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 
@@ -30,13 +31,14 @@ class OwnerController extends Controller
 	   	$result = $qrcode->temporary(time(), 10);
 	   	$ticket = $result->ticket;
 	   	$expireSeconds = $result->expire_seconds;
-	  	
+	  	$time=time();
 	   	$url=$qrcode->url($ticket);
 	   	// dd($qrcode);
-	  
+	  	QrCode::format('png')->size(200)->errorCorrection('H')->merge('/public/qrcodes/log.png',.3)->generate('https://www.baidu.com','../public/qrcodes/'.$time.'.png');
 	    return view('owner.mysql',[
 	    	'user'=> $user,
 	    	'url'=> $url,
+	    	'time'=>$time,
 
 	    	]);
 
