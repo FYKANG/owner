@@ -549,7 +549,7 @@ class OwnerController extends Controller
 * 配置目录config/app(调用.env文件配置默认为`APP_DEBUG=true`)
 	* 关闭后只会出现以下信息<br>
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelDebug.png)
-## 2017//7/10
+## 2017/07/10
 ### HTTP错误
 * abort
 	```php
@@ -584,7 +584,7 @@ class OwnerController extends Controller
 	```
 * 查看错误日志
 	* 位于`./storage/logs`中
-## 2017/7/11
+## 2017/07/11
 ### 关于使用composer遇到的问题
 * 更改镜像 
 	* 全局更改`composer config -g repositories.packagist composer http://packagist.phpcomposer.com`
@@ -651,4 +651,10 @@ class OwnerController extends Controller
 			```
 	* 别把推送写在配置的url中，监听会导致推送一直重复执行
 	* 添加和修改自定义菜单有一定的延迟，可以取消关注后重新关注就能马上看到效果了
-	
+## 2017/07/13
+### 关于Simple QrCode
+* 以下是官方描述
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qr.png)
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrE.png)
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrC.png)
+* 在实践测试中发现如果不手动添加`errorCorrection('H')`容错率并不能达到H等级，会出现添加logo后无法识别的情况。
