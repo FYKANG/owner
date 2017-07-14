@@ -34,7 +34,7 @@ class OwnerController extends Controller
 	  	$time=time();
 	   	$url=$qrcode->url($ticket);
 	   	// dd($qrcode);
-	  	QrCode::format('png')->size(200)->errorCorrection('H')->merge('/public/qrcodes/log.png',.3)->generate('https://www.baidu.com','../public/qrcodes/'.$time.'.png');
+	  	QrCode::format('png')->size(200)->errorCorrection('H')->merge('/public/qrcodes/log.png',.2)->generate('http://www.passowner.club/owner/public/mysql','../public/qrcodes/'.$time.'.png');
 	    return view('owner.mysql',[
 	    	'user'=> $user,
 	    	'url'=> $url,
@@ -43,6 +43,14 @@ class OwnerController extends Controller
 	    	]);
 
 
+    }
+    public function test(){
+
+ 		$user = session('wechat.oauth_user');
+
+	    return view('owner.test',[
+	    	'user'=> $user,
+	    	]);    	
     }
     public function session(Request $request){
     	//获取缓存内容
@@ -55,28 +63,9 @@ class OwnerController extends Controller
 		//Cache::forget('key');	//(键)
     }
 
-    public function from(Application $wechat){
+    public function from(Request $request,Application $wechat){
  		
-    	 $notice = $wechat->notice;
-
-
-    $userId = 'oLiRv1HwbBzQL5NHNr3VB8Ru-1uA';
-    $templateId = 'GlpcaxZK5rscHnXcNdtYE8rTAGwtbkWFuWr22_RTxS4';
-    $url = route('mysql');
-    $data = array(
-         "first"  => "bilibili",
-         "name"   => "b站",
-         "addr"  => "https://www.baidu.com/",
-         "time"	=>date('Y-m-d H:i:s', time()),
-         "remark" => "welcome！",
-        );
-    $result = $notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($userId)->send();
-    var_dump($result);
-    // {
-    //      "errcode":0,
-    //      "errmsg":"ok",
-    //      "msgid":200228332
-    //  }
+    	return view('owner.from');
     }
 
     public function fromsave(Request $request){

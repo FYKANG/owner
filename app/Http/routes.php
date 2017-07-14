@@ -69,3 +69,10 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
     	'as'=>'mysql',
     	]);
 });
+
+Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_base']], function () {
+    Route::any('test',[
+    	'uses'=>'OwnerController@test',
+    	'as'=>'test',
+    	]);
+});
