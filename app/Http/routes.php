@@ -37,10 +37,7 @@ Route::group(['middleware'=>'wechat'], function() {
 	]);
 });
 
-Route::any('from', [
-	'uses'=>'OwnerController@from',
-	'as'=>'from',
-	]);
+
 
 Route::any('session', [
 	'uses'=>'OwnerController@session',
@@ -74,5 +71,21 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_base']], function () 
     Route::any('test',[
     	'uses'=>'OwnerController@test',
     	'as'=>'test',
+    	]);
+    Route::any('person',[
+    	'uses'=>'OwnerController@person',
+    	'as'=>'person',
+    	]);
+    Route::any('showInfo',[
+    	'uses'=>'OwnerController@showInfo',
+    	'as'=>'showInfo',
+    	]);
+    Route::any('from', [
+		'uses'=>'OwnerController@from',
+		'as'=>'from',
+	]);
+    Route::any('showInfo',[
+    	'uses'=>'OwnerController@showInfo',
+    	'as'=>'showInfo',
     	]);
 });

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;	
 use Config;
-use App\Owner;		//MOdel的调用
-use App\search;		//MOdel的调用
+use App\Owner;			//MOdel的调用
+use App\search;			//MOdel的调用
+use App\user_info;		//MOdel的调用
+use App\owner_info;		//MOdel的调用
+use App\owner_qrcode;	//MOdel的调用
 use Illuminate\Support\Facades\DB;	//查询构造器的调用
 use Illuminate\Http\Request; 	//调用Request
 use Illuminate\Support\Facades\Session;	//调用Session模型
@@ -52,6 +55,10 @@ class OwnerController extends Controller
 	    	'user'=> $user,
 	    	]);    	
     }
+
+
+
+
     public function session(Request $request){
     	//获取缓存内容
 		//Cache::get('key', 'default');	//(键,默认值)
@@ -63,11 +70,25 @@ class OwnerController extends Controller
 		//Cache::forget('key');	//(键)
     }
 
+
+    //个人页面
+    public function person(){
+    	$user = session('wechat.oauth_user');
+    	return $user;
+
+    }
+
+
+
+
+
+    //表单
     public function from(Request $request,Application $wechat){
  		
     	return view('owner.from');
     }
 
+    //上传表单
     public function fromsave(Request $request){
     	$mgs=$request->all();
     	// echo $mgs['test'];
@@ -84,6 +105,15 @@ class OwnerController extends Controller
     	// 		'test'=>'测试1',
     	// 		'test2'=>'测试2'
     	// 	]);
+
+    }
+
+    //信息展示页面
+    public function showInfo(){
+
+    	$user = session('wechat.oauth_user');
+    	return $user;
+
 
     }
 
