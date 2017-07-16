@@ -5,17 +5,19 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>owner</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="{{ URL::asset('js/jquery-3.2.1.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('css/weui.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap.min.css') }}">
 </head>
 <body style="margin:2px 2px 2px 2px;">
 <img src="img/log.jpg" class="img-responsive" alt="Responsive image">
-<form>
-
+<form action="{{route('fromsave')}}" method="post" accept-charset="utf-8">
+ {{csrf_field()}}
+	<input type="hidden" name="opid" value="">
    <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
 	                <div class="weui-cell__bd">
-	                    <input class="weui-input" type="text" placeholder="请输入名称"/>
+	                    <input class="weui-input" type="text" placeholder="请输入名称" name='name'/>
 	                </div>
 	    </div> 
 
@@ -27,7 +29,7 @@
 	   <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">微信号</label></div>
 	                <div class="weui-cell__bd">
-	                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入微信号"/>
+	                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入微信号" name="wechat" />
 	                </div>
 	    </div> 
 
@@ -36,7 +38,7 @@
 
             <div class="weui-cell weui-cell_select weui-cell_select-before">
                 <div class="weui-cell__hd">
-                    <select class="weui-select" name="select2">
+                    <select class="weui-select" name="phone_date">
                         <option value="1">+86</option>
                         <option value="2">+80</option>
                         <option value="3">+84</option>
@@ -44,7 +46,7 @@
                     </select>
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入号码"/>
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入号码" name="phone" />
                 </div>
             </div>
         </div>
@@ -55,7 +57,7 @@
         <div class="weui-cells weui-cells_form">
             <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="请输入你想要的留言" rows="3"></textarea>
+                    <textarea class="weui-textarea" placeholder="请输入你想要的留言" rows="3" name="message"></textarea>
                     <div class="weui-textarea-counter"><span>0</span>/200</div>
                 </div>
             </div>
@@ -126,7 +128,7 @@
 
 
 
-	<script src="{{ URL::asset('js/jquery-2.1.1.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
+	
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>

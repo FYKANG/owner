@@ -91,6 +91,7 @@ class OwnerController extends Controller
     //上传表单
     public function fromsave(Request $request){
     	$mgs=$request->all();
+    	var_dump($mgs);
     	// echo $mgs['test'];
     	// echo $mgs['test2'];
     	// $this->validate($request,[
