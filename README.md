@@ -665,7 +665,7 @@ class OwnerController extends Controller
 	<script type="text/javascript" charset="utf-8">
 	    wx.config(<?php echo app('wechat')->js
 	    		->config(array(	'chooseImage',
-	    						'previewImage',  
+	    				'previewImage',  
 	                    		'uploadImage',  
 	                    		'downloadImage',
 	                    		), true) ?>);
