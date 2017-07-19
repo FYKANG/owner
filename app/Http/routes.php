@@ -29,15 +29,13 @@ Route::get('basic1', function () {
 
 // 	]);
 
-Route::group(['middleware'=>'wechat'], function() {
-    Route::any('fromsave',[
+
+
+   Route::any('fromsave',[
 	'uses'=>'OwnerController@fromsave',
 	'as'=>'fromsave'
 
 	]);
-});
-
-
 
 Route::any('session', [
 	'uses'=>'OwnerController@session',
@@ -84,8 +82,5 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_base']], function () 
 		'uses'=>'OwnerController@from',
 		'as'=>'from',
 	]);
-    Route::any('showInfo',[
-    	'uses'=>'OwnerController@showInfo',
-    	'as'=>'showInfo',
-    	]);
+
 });

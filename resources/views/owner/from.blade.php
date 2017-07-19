@@ -13,7 +13,8 @@
 <img src="img/log.jpg" class="img-responsive" alt="Responsive image">
 <form action="{{route('fromsave')}}" method="post" accept-charset="utf-8">
  {{csrf_field()}}
-	<input type="hidden" name="opid" value="">
+	<input type="hidden" name="opid" value="{{$opid}}">
+	<input type="hidden" name="discern" value="">
    <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
 	                <div class="weui-cell__bd">
@@ -39,10 +40,10 @@
             <div class="weui-cell weui-cell_select weui-cell_select-before">
                 <div class="weui-cell__hd">
                     <select class="weui-select" name="phone_date">
-                        <option value="1">+86</option>
-                        <option value="2">+80</option>
-                        <option value="3">+84</option>
-                        <option value="4">+87</option>
+                        <option value="86">+86</option>
+                        <option value="80">+80</option>
+                        <option value="84">+84</option>
+                        <option value="87">+87</option>
                     </select>
                 </div>
                 <div class="weui-cell__bd">
@@ -72,15 +73,15 @@
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">图片上传</p>
-                            <div class="weui-uploader__info">0/2</div>
+                            <div class="weui-uploader__info" id="imgCheck">0/2</div>
                         </div>
                         <div class="weui-uploader__bd">
                      
-                            <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input"  />
+                            <div class="weui-uploader__input-box" id="img0" >
+                             
                             </div>
-                            <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input"  />
+                            <div class="weui-uploader__input-box" id="img1">
+                               
                             </div>
                         </div>
                     </div>
@@ -95,7 +96,7 @@
                     <p>保存并公开</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" class="weui-check" name="radio1" id="x11" checked="checked"/>
+                    <input type="radio" class="weui-check" name="radio1" id="x11" checked="checked" value="1" />
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
@@ -105,7 +106,7 @@
                     <p>保存暂不公开</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x12" />
+                    <input type="radio" name="radio1" class="weui-check" id="x12" value="2" />
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
@@ -130,5 +131,52 @@
 
 	
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+    wx.config(<?php echo app('wechat')->js
+    		->config(array(	'chooseImage',
+    						'previewImage',  
+                    		'uploadImage',  
+                    		'downloadImage',
+                    		), true) ?>);
+    wx.ready(function(){
+    // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+    });
+
+var imgNum=1;
+function upload(map){
+    wx.chooseImage({
+    count: 1, // 默认9
+    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+    success: function (res) {
+        var localIds= res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+        setTimeout(function(){
+          wx.uploadImage({
+          localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: function (res) {
+          var serverId = res.serverId; // 返回图片的服务器端ID
+          $('#img'+map).html('<input type="hidden" name="media_id['+map+']" value="'+serverId+'">'+'<img src="'+localIds+'" style="height: 100%;width: 100%;position:absolute;z-index:1;">');
+
+          if(imgNum<=2){
+              
+               $('#imgCheck').html(imgNum+'/2');
+               imgNum++;
+          }
+          }
+        })},100);
+    }
+});
+}
+  $('#img0').click(function() { 
+    upload(0);
+   });
+   $('#img1').click(function() { 
+    upload(1);
+   });
+
+</script>
+
 </body>
 </html>

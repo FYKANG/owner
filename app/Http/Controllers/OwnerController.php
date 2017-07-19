@@ -85,27 +85,39 @@ class OwnerController extends Controller
     //表单
     public function from(Request $request,Application $wechat){
  		
-    	return view('owner.from');
+ 		$user = session('wechat.oauth_user');
+ 		$js= $wechat->js;
+ 		// echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo'), true);
+    	return view('owner.from',
+    			[	'opid'=>$user->getId(),
+    				'js'=>$js,
+
+    			]);
     }
 
     //上传表单
-    public function fromsave(Request $request){
+    public function fromsave(Request $request,Application $wechat){
     	$mgs=$request->all();
-    	var_dump($mgs);
-    	// echo $mgs['test'];
-    	// echo $mgs['test2'];
-    	// $this->validate($request,[
-    	// 		'test'=>'required|min:1|max:2',
-    	// 		'test2'=>'required|integer',
-    	// 	],[
-    	// 		'required'=>':attribute 必填',
-    	// 		'integer'=>':attribute 数字',
-    	// 		'max'=>':attribute 最大为2位数',
-    	// 		'min'=>':attribute 最小为1位数',
-    	// 	],[
-    	// 		'test'=>'测试1',
-    	// 		'test2'=>'测试2'
-    	// 	]);
+    	$path = public_path();
+    	$temporary = $wechat->material_temporary;
+    	$temporary->download($mgs['media_id'][0], "$path/img/", $mgs['media_id'][0].'.jpg');
+    	$temporary->download($mgs['media_id'][1], "$path/img/", $mgs['media_id'][1].'.jpg');
+    	//使用create方法新增数据
+    	$workout=owner_info::create(
+    		[	'opid'=>$mgs['opid'],
+    			'name'=>$mgs['name'],
+    			'wechat'=>$mgs['wechat'],
+    			'discern'=>$mgs['discern'],
+    			'phone'=>$mgs['phone'],
+    			'phone_date'=>$mgs['phone_date'],
+    			'message'=>$mgs['message'],
+    			'statu'=>$mgs['radio1'],
+    			'img'=>$mgs['media_id'][0],
+    			'img2'=>$mgs['media_id'][1]
+
+    		]
+    		);
+    	echo $workout;
 
     }
 

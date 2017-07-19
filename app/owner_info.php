@@ -19,7 +19,10 @@ class owner_info extends Model
                             'phone',
                             'wechat',
                             'img',
+                            'img2',
                             'statu',
+                            'message',
+                            'phone_date'
                             ];
 
     //是否时间自动维护
