@@ -658,3 +658,17 @@ class OwnerController extends Controller
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrE.png)
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrC.png)
 * 在实践测试中发现如果不手动添加`errorCorrection('H')`容错率并不能达到H等级，会出现添加logo后无法识别的情况。
+## 2017/07/19
+### 关于调用easywechat的jssdk模块
+	* 示例
+	```php
+	<script type="text/javascript" charset="utf-8">
+	    wx.config(<?php echo app('wechat')->js
+	    		->config(array(	'chooseImage',
+	    						'previewImage',  
+	                    		'uploadImage',  
+	                    		'downloadImage',
+	                    		), true) ?>);
+	</script>
+	```
+	* 注意使用laravel的view传入$js的对象无法正常调用模块需。
