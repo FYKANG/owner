@@ -84,3 +84,8 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_base']], function () 
 	]);
 
 });
+
+Route::any('serach_message', [
+	'uses'=>'OwnerController@serach_message',
+	'as'=>'serach_message',
+	]);

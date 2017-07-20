@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class qrcode extends Model
+class owner_qrcode extends Model
 {
 	//指定表名
     protected $table='qrcode';

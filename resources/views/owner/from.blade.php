@@ -14,7 +14,7 @@
 <form action="{{route('fromsave')}}" method="post" accept-charset="utf-8">
  {{csrf_field()}}
 	<input type="hidden" name="opid" value="{{$opid}}">
-	<input type="hidden" name="discern" value="">
+	<input type="hidden" name="discern" value="{{$discern}}">
    <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
 	                <div class="weui-cell__bd">
@@ -130,7 +130,7 @@
 
 
 	
-	<script src="{{ URL::asset('js/bootstrap.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
+<script src="{{ URL::asset('js/bootstrap.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
     wx.config(<?php echo app('wechat')->js
