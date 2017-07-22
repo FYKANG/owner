@@ -11,6 +11,13 @@
 </head>
 <body style="margin:2px 2px 2px 2px;">
 <img src="img/log.jpg" class="img-responsive" alt="Responsive image">
+ @if(count($errors))
+ 	<ul>
+ 		@foreach($errors->all() as $error)
+ 			<li>{{$error}}</li>
+ 		@endforeach
+ 	</ul>
+ @endif
 <form action="{{route('fromsave')}}" method="post" accept-charset="utf-8">
  {{csrf_field()}}
 	<input type="hidden" name="opid" value="{{$opid}}">
@@ -18,7 +25,7 @@
    <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
 	                <div class="weui-cell__bd">
-	                    <input class="weui-input" type="text" placeholder="请输入名称" name='name'/>
+	                    <input class="weui-input" type="text" placeholder="请输入名称" name='name' required="required" id="Name" />
 	                </div>
 	    </div> 
 
@@ -30,7 +37,7 @@
 	   <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">微信号</label></div>
 	                <div class="weui-cell__bd">
-	                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入微信号" name="wechat" />
+	                    <input class="weui-input" placeholder="请输入微信号" name="wechat" required="required" />
 	                </div>
 	    </div> 
 
@@ -47,7 +54,7 @@
                     </select>
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入号码" name="phone" />
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入号码" name="phone" required="required" id="phone" />
                 </div>
             </div>
         </div>
@@ -58,8 +65,8 @@
         <div class="weui-cells weui-cells_form">
             <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="请输入你想要的留言" rows="3" name="message"></textarea>
-                    <div class="weui-textarea-counter"><span>0</span>/200</div>
+                    <textarea class="weui-textarea" placeholder="请输入你想要的留言" rows="3" name="message" required="required" id="data"></textarea>
+                    <div class="weui-textarea-counter" id="numCheck" ><span>0</span>/200</div>
                 </div>
             </div>
         </div>
@@ -131,6 +138,7 @@
 
 	
 <script src="{{ URL::asset('js/bootstrap.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
+<script src="{{ URL::asset('js/contentCheck.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
     wx.config(<?php echo app('wechat')->js

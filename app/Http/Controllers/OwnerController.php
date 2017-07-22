@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Log; 	//调用错误日志
 use EasyWeChat\Foundation\Application;	//实例化easywechat
 use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;	//wechat授权
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Redirect;	//调用redirect类				
+use Redirect;	//调用redirect类		
+use EasyWeChat\Broadcast\Broadcast;	//调用Broadcast
 
 
 
@@ -81,13 +82,21 @@ class OwnerController extends Controller
 
     	$discern=$request->all();
     	$mgs=owner_info::where('discern','=',$discern)->first();
+    	if($mgs->statu!=1){
+    		$mgs->name='未公开';
+    		$mgs->phone='未公开';
+    		$mgs->wechat='未公开';
+    		$mgs->message='未公开';
+    		$mgs->img='null';
+    		$mgs->img2='null';
+    	}
     	
     	return view('owner.owner_message',
     		[
     			'name'=>$mgs->name,
     			'phone'=>$mgs->phone,
-    			'wechat'=>$mgs->phone, 
-    			'message'=>$mgs->phone,
+    			'wechat'=>$mgs->wechat, 
+    			'message'=>$mgs->message,
     			'img'=>$mgs->img,
     			'img2'=>$mgs->img2
     		]);
@@ -95,8 +104,7 @@ class OwnerController extends Controller
 
     //个人页面
     public function person(){
-    	$user = session('wechat.oauth_user');
-    	return $user;
+    	
 
     }
 
@@ -123,6 +131,15 @@ class OwnerController extends Controller
 
     			]);
  		}else{
+ 			$owner=owner_info::where('discern','=',$mgs)->first();
+ 			$time=date("Y-m-d H:i:s",time());
+ 			$openId=$owner->opid;
+ 			$name=$owner->name;
+ 			$openId1='123123okl';
+ 			$message=$time.'-'.$name.'被扫描';
+ 			$messageType = Broadcast::MSG_TYPE_TEXT;
+			$broadcast = $wechat->broadcast;
+			$broadcast->send($messageType, $message, [$openId, $openId1]);	
  			return Redirect::route('serach_message',array('discern'=>$mgs));
  		}
  	
@@ -130,6 +147,26 @@ class OwnerController extends Controller
 
     //上传表单
     public function fromsave(Request $request,Application $wechat){
+    	//数据验证
+    	$this->validate($request,[
+ 				//字段的规则设定
+ 				'wechat'=>'required',
+ 				'phone'=>'required|digits:11',
+ 				'name'=>'required|max:11',
+ 				'message'=>'required|min:1|max:200',
+ 			],[
+ 			//错误信息的提示设置
+ 				'required'=>':attribute 必填',
+ 				'integer'=>':attribute 数字',
+ 				'max'=>':attribute 超过最大限制',
+ 				'min'=>':attribute 未达到最小要求',
+ 			],[
+ 			//错误字段的名称设置
+ 				'wechat'=>'微信',
+ 				'phone'=>'手机',
+ 				'name'=>'名称',
+ 				'message'=>'留言',
+ 			]);
     	//获取表单数据
     	$mgs=$request->all();
     	//easywechat微信素材的实例化
@@ -173,23 +210,26 @@ class OwnerController extends Controller
     			'phone_date'=>$mgs['phone_date'],
     			'message'=>$mgs['message'],
     			'statu'=>$mgs['radio1'],
-    			'img'=>$mgs['media_id'][0],
-    			'img2'=>$mgs['media_id'][1]
+    			'img'=>$time.$mgs['media_id'][0],
+    			'img2'=>$time.$mgs['media_id'][1]
 
     		]);
     	//修改二维码状态
     	$qrcode=owner_qrcode::where('discern','=',$mgs['discern'])->first();
     	$qrcode->statu='1';
-    	$bool=$qrcode->save();//返回布尔值
-    	echo $workout;
+    	if($bool=$qrcode->save()&&$workout!=null){
+    		return Redirect::route('showInfo');
+    	}
+    	
+    	
 
     }
 
-    //信息展示页面
+    //二维码展示
     public function showInfo(){
 
-    	$user = session('wechat.oauth_user');
-    	return $user;
+    
+    	return view('owner.connection');
 
 
     }

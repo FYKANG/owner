@@ -78,68 +78,24 @@
       <!--  添加颜色//-->
       <h1 class="text-primary">owenr</h1>
       <!--  添加图标 //-->
-      <p><span class="glyphicon glyphicon-paperclip"></span> owner!!</p>
+      <p><span class="glyphicon glyphicon-paperclip"></span> 关注公众号获得及时消息 </p>
     </div>
     
-    <div class="col-lg-3 col-md-3 col-xs-12">
-      <div class="row">
-        
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <p id="contact" class="address text-center">联系</p>
-        </div>
-        
-        <div class="col-lg-8 col-md-8 col-xs-8">
-          <p><span class="glyphicon glyphicon-envelope"></span> 微信:{{$wechat}}</p>
-          <p><span class="glyphicon glyphicon-earphone"></span> 手机号码:{{$phone}}</p>
-          <p><span class="glyphicon glyphicon-road"></span> 名称:{{$name}}</p>
-        </div>
-        
-      </div>
-    </div>
-@if($img!='null')
- 	  <div class="col-lg-2 col-md-2 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-xs-12">
       <p>
         <!-- 这里定义图片为响应式，并且添加圆角效果，以便保证图片在不同设备上都可以完美显示 //-->
-        <img data-toggle="tooltip" data-placement="left" id="avatar" title="owner" class="img-responsive img-rounded" src="img/{{$img.'.jpg'}}" alt="">
+        <img data-toggle="tooltip" data-placement="left" id="avatar" title="owner" class="img-responsive img-rounded" src="img/ewm.png" alt="">
        </p>
     </div>
- @endif
-  
   </div>
 </div>
 
 <!-- 定义简历的主体部分 //-->
 
-<div class="container">
-  <div class="row cvbody">
-    
-    <!-- 这里定义两个区域，布局定义如下：//-->
-    
-    <div class="col-lg-6 col-md-6 col-xs-12">
-    
-      <div class="row">
-        <div class="cbox green">
-          <h4>留言</h4>
-          <p>
-            {{$message}}
-          </p>
-        </div>
 
-  
-      </div>
-    
-    </div>
-    
-    <!-- 为了清楚的分割两个区域，这里我们添加了一个空白区域，或者也可以在CSS中定义Margin实现//-->
-    <div class="col-lg-1 col-md-1 col-xs-12"></div>
-    
-  </div>
-</div>
 
 <!-- 定义简历页底 //-->
-<div class="container">
-  <div class="row"><div class="footer text-center">关注-owner</div></div>
-</div>
+
 
 <!-- 引入jQuery类库和Bootstrap3的Javascript类库 //-->
 <script src="{{ URL::asset('js/jquery-3.2.1.min.js') }}" type="text/javascript" charset="utf-8" async defer></script>
