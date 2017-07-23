@@ -14,14 +14,13 @@
 <body>
 <div class="test">
 
-{{$user->getNickname()}}
 <div class="visible-print text-center">
-	
-	<img src="{{ URL::asset('qrcodes/'.$time.'.png') }}" alt="">
-    
+@foreach ($discerns as $discern)
+    <img src="{{ URL::asset('qrcodes/'.$discern.'.png') }}" alt="">
     <p>Scan me to return to the original page.</p>
-    {{route('session')}}
-    <div id="qrDiv"></div>
+    
+@endforeach
+	
 </div>
 
 

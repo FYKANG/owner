@@ -30,10 +30,15 @@ Route::get('basic1', function () {
 // 	]);
 
 
-
-   Route::any('fromsave',[
+Route::any('fromsave',[
 	'uses'=>'OwnerController@fromsave',
 	'as'=>'fromsave'
+
+	]);
+   
+Route::any('fromchangesave',[
+	'uses'=>'OwnerController@fromchangesave',
+	'as'=>'fromchangesave'
 
 	]);
 
@@ -58,12 +63,12 @@ Route::any('/demo', [
 	'as'=>'demo',
 	]);
 
-Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
-    Route::any('/mysql',[
-    	'uses'=>'OwnerController@mysql',
-    	'as'=>'mysql',
-    	]);
-});
+
+Route::any('/mysql',[
+ 	'uses'=>'OwnerController@mysql',
+    'as'=>'mysql',
+    ]);
+
 
 Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_base']], function () {
     Route::any('test',[
@@ -82,7 +87,10 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_base']], function () 
 		'uses'=>'OwnerController@from',
 		'as'=>'from',
 	]);
-
+    Route::any('fromchange', [
+		'uses'=>'OwnerController@fromchange',
+		'as'=>'fromchange',
+	]);
 });
 
 Route::any('serach_message', [

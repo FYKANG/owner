@@ -17,6 +17,7 @@ use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;	//wechat授权
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Redirect;	//调用redirect类		
 use EasyWeChat\Broadcast\Broadcast;	//调用Broadcast
+use App\Http\Requests\fromRequest;	//from表单验证
 
 
 
@@ -30,7 +31,7 @@ class OwnerController extends Controller
      //                      ->setRequest($request)
      //                      ->redirect();
      //                      return $response;
-    	$user = session('wechat.oauth_user');
+    	// $user = session('wechat.oauth_user');
     	//获取easywechat二维码实例
     	$qrcode = $wechat->qrcode;
 
@@ -38,19 +39,27 @@ class OwnerController extends Controller
 		// $ticket = $result->ticket; // 或者 $result['ticket']
 		// $url = $result->url;
 	   	
-	   	$result = $qrcode->temporary(time(), 10);
-	   	$ticket = $result->ticket;
-	   	$expireSeconds = $result->expire_seconds;
+	   	// $result = $qrcode->temporary(time(), 10);
+	   	// $ticket = $result->ticket;
+	   	// $expireSeconds = $result->expire_seconds;
 	  	$time=time();
-	   	$url=$qrcode->url($ticket);
+	   	// $url=$qrcode->url($ticket);
 	   	// dd($qrcode);
-	  	QrCode::format('png')->size(200)->errorCorrection('H')->merge('/public/qrcodes/log.png',.2)->generate('http://www.passowner.club/owner/public/from?discern=test','../public/qrcodes/'.$time.'.png');
-	    return view('owner.mysql',[
-	    	'user'=> $user,
-	    	'url'=> $url,
-	    	'time'=>$time,
+	   	for($i=1;$i<=20;$i++){
 
-	    	]);
+	   		$discerns[$i]=md5($time.$i.rand(1,999));
+	   		$add=owner_qrcode::create(
+    			[
+    				'discern'=>$discerns[$i]
+    			]);
+	   		$url='http://www.passowner.club/owner/public/from?discern='.$discerns[$i];
+	   		QrCode::format('png')->size(300)->errorCorrection('Q')->merge('/public/qrcodes/log.png',.2)->generate($url,'../public/qrcodes/'.$discerns[$i].'.png');
+	   	}
+	  	
+	    return view('owner.mysql',
+	    		[
+	    			'discerns'=>$discerns,
+	    		]);
 
 
     }
@@ -125,7 +134,8 @@ class OwnerController extends Controller
  			$user = session('wechat.oauth_user');
  			$js= $wechat->js;
     		return view('owner.from',
-    			[	'opid'=>$user->getId(),
+    			[	
+    				'opid'=>$user->getId(),
     				'js'=>$js,
     				'discern'=>$mgs,
 
@@ -146,27 +156,27 @@ class OwnerController extends Controller
     }
 
     //上传表单
-    public function fromsave(Request $request,Application $wechat){
+    public function fromsave(fromRequest $request,Application $wechat){
     	//数据验证
-    	$this->validate($request,[
- 				//字段的规则设定
- 				'wechat'=>'required',
- 				'phone'=>'required|digits:11',
- 				'name'=>'required|max:11',
- 				'message'=>'required|min:1|max:200',
- 			],[
- 			//错误信息的提示设置
- 				'required'=>':attribute 必填',
- 				'integer'=>':attribute 数字',
- 				'max'=>':attribute 超过最大限制',
- 				'min'=>':attribute 未达到最小要求',
- 			],[
- 			//错误字段的名称设置
- 				'wechat'=>'微信',
- 				'phone'=>'手机',
- 				'name'=>'名称',
- 				'message'=>'留言',
- 			]);
+    // 	$this->validate($request,[
+ 			// 	//字段的规则设定
+ 			// 	'wechat'=>'required',
+ 			// 	'phone'=>'required|digits:11',
+ 			// 	'name'=>'required|max:11',
+ 			// 	'message'=>'required|min:1|max:200',
+ 			// ],[
+ 			// //错误信息的提示设置
+ 			// 	'required'=>':attribute 必填',
+ 			// 	'integer'=>':attribute 数字',
+ 			// 	'max'=>':attribute 超过最大限制',
+ 			// 	'min'=>':attribute 未达到最小要求',
+ 			// ],[
+ 			// //错误字段的名称设置
+ 			// 	'wechat'=>'微信',
+ 			// 	'phone'=>'手机',
+ 			// 	'name'=>'名称',
+ 			// 	'message'=>'留言',
+ 			// ]);
     	//获取表单数据
     	$mgs=$request->all();
     	//easywechat微信素材的实例化
@@ -175,6 +185,7 @@ class OwnerController extends Controller
     	$path = public_path();
     	//时间戳的处理
     	$time=date("Y-m-d H:i:s",time());
+
     	//下载素材
     	if(array_key_exists('media_id',$mgs)){
     		if(count($mgs['media_id'])!=2){
@@ -182,15 +193,19 @@ class OwnerController extends Controller
     				if($key==0){
     					$mgs['media_id'][1]='null';
     					$temporary->download($mgs['media_id'][0], "$path/img/", $time.$mgs['media_id'][0]);
+    					$mgs['media_id'][0]=$time.$mgs['media_id'][0];
     				}else{
     					$mgs['media_id'][0]='null';
     					$temporary->download($mgs['media_id'][1], "$path/img/", $time.$mgs['media_id'][1]);
+    					$mgs['media_id'][1]=$time.$mgs['media_id'][1];
     				}		
     			}
     		}else{
     			
     			$temporary->download($mgs['media_id'][0], "$path/img/", $time.$mgs['media_id'][0]);
     			$temporary->download($mgs['media_id'][1], "$path/img/", $time.$mgs['media_id'][1]);
+    			$mgs['media_id'][0]=$time.$mgs['media_id'][0];
+    			$mgs['media_id'][1]=$time.$mgs['media_id'][1];
     		}
     	
     	}else{
@@ -210,27 +225,107 @@ class OwnerController extends Controller
     			'phone_date'=>$mgs['phone_date'],
     			'message'=>$mgs['message'],
     			'statu'=>$mgs['radio1'],
-    			'img'=>$time.$mgs['media_id'][0],
-    			'img2'=>$time.$mgs['media_id'][1]
+    			'img'=>$mgs['media_id'][0],
+    			'img2'=>$mgs['media_id'][1],
 
     		]);
     	//修改二维码状态
     	$qrcode=owner_qrcode::where('discern','=',$mgs['discern'])->first();
-    	$qrcode->statu='1';
+    	$qrcode->statu=$mgs['radio1'];
     	if($bool=$qrcode->save()&&$workout!=null){
     		return Redirect::route('showInfo');
     	}
-    	
-    	
+    }
+
+
+    //更新数据表单
+    public function fromchange(Request $request,Application $wechat){
+    	$js= $wechat->js;
+    	$discern=$request->all();
+    	$mgs=owner_info::where('discern','=',$discern)->first();
+    	return view('owner.fromchange',
+    			[
+    				'name'=>$mgs->name,
+    				'phone'=>$mgs->phone,
+    				'wechat'=>$mgs->wechat, 
+    				'message'=>$mgs->message,
+    				'img'=>$mgs->img,
+    				'img2'=>$mgs->img2,
+    				'opid'=>$mgs->opid,
+    				'discern'=>$mgs->discern,
+    				'js'=>$js,
+    				'statu'=>$mgs->statu,
+
+    			]);
+    }   
+
+    //更新数据
+    public function fromchangesave(fromRequest $request,Application $wechat){
+
+    	//获取表单数据
+    	$mgs=$request->all();
+    	//easywechat微信素材的实例化
+    	$temporary = $wechat->material_temporary;
+    	//获取public的绝对地址
+    	$path = public_path();
+    	//时间戳的处理
+    	$time=date("Y-m-d H:i:s",time());
+    	//批量更新
+    	$update=owner_info::where('discern','=',$mgs['discern'])->first();
+    	$update->update(
+	    		[
+	    			'name'=>$mgs['name'],
+	    			'wechat'=>$mgs['wechat'],
+	    			'discern'=>$mgs['discern'],
+	    			'phone'=>$mgs['phone'],
+	    			'phone_date'=>$mgs['phone_date'],
+	    			'message'=>$mgs['message'],
+	    			'statu'=>$mgs['radio1'],
+	    		]);//返回被修改的条数
+    	if(array_key_exists('media_id',$mgs)){
+    			if(count($mgs['media_id'])!=2){
+    			foreach ($mgs['media_id'] as $key => $value) {
+    				if($key==0){
+    					$mgs['media_id'][1]='null';
+    					$temporary->download($mgs['media_id'][0], "$path/img/", $time.$mgs['media_id'][0]);
+    					$mgs['media_id'][0]=$time.$mgs['media_id'][0];
+    					$update->update(
+    						[
+    							'img'=>$mgs['media_id'][0],
+    						]);
+    				}else{
+    					$mgs['media_id'][0]='null';
+    					$temporary->download($mgs['media_id'][1], "$path/img/", $time.$mgs['media_id'][1]);
+    					$mgs['media_id'][1]=$time.$mgs['media_id'][1];
+    					$update->update(
+    						[
+    							'img2'=>$mgs['media_id'][1],
+    						]);
+    				}		
+    			}
+    		}else{
+    			
+    			$temporary->download($mgs['media_id'][0], "$path/img/", $time.$mgs['media_id'][0]);
+    			$temporary->download($mgs['media_id'][1], "$path/img/", $time.$mgs['media_id'][1]);
+    			$mgs['media_id'][0]=$time.$mgs['media_id'][0];
+    			$mgs['media_id'][1]=$time.$mgs['media_id'][1];
+    			$update->update(
+    						[
+    							'img'=>$mgs['media_id'][0],
+    							'img2'=>$mgs['media_id'][1],
+    						]);
+    		}
+    	}
+
+    	return Redirect::route('serach_message',array('discern'=>$mgs['discern']));
 
     }
+
 
     //二维码展示
     public function showInfo(){
 
-    
     	return view('owner.connection');
-
 
     }
 
