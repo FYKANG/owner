@@ -21,7 +21,6 @@
 <form action="{{route('fromchangesave')}}" method="post" accept-charset="utf-8">
  {{csrf_field()}}
     <input type="hidden" name="change" value="change">
-	<input type="hidden" name="opid" value="{{$opid}}">
 	<input type="hidden" name="discern" value="{{$discern}}">
    <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">名称</label></div>

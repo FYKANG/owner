@@ -22,6 +22,7 @@
  {{csrf_field()}}
 	<input type="hidden" name="opid" value="{{$opid}}">
 	<input type="hidden" name="discern" value="{{$discern}}">
+	<input type="hidden" name="nickname" value="{{$nickname}}">
    <div class="weui-cell">
 	                <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
 	                <div class="weui-cell__bd">

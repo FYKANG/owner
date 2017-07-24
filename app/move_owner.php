@@ -4,26 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class owner_info extends Model
+class move_owner extends Model
 {
 	//指定表名
-    protected $table='owner_info';
+    protected $table='move_owner';
 
     //指定主键
     protected $primaryKey='id';
 
     //设置允许批量赋值的字段
-    protected  $fillable=[  'opid',
-                            'nickname',
+    protected  $fillable=[  
                             'discern',
                             'name',
-                            'phone',
-                            'wechat',
-                            'img',
-                            'img2',
-                            'statu',
-                            'message',
-                            'phone_date'
+                            'opid',
+                            'nickname',
                             ];
 
     //是否时间自动维护

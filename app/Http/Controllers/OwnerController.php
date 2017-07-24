@@ -7,6 +7,7 @@ use App\search;			//MOdel的调用
 use App\user_info;		//MOdel的调用
 use App\owner_info;		//MOdel的调用
 use App\owner_qrcode;	//MOdel的调用
+use App\move_owner;		//MOdel的调用
 use Illuminate\Support\Facades\DB;	//查询构造器的调用
 use Illuminate\Http\Request; 	//调用Request
 use Illuminate\Support\Facades\Session;	//调用Session模型
@@ -87,9 +88,22 @@ class OwnerController extends Controller
     }
 
     //寻物信息页面
-    public function serach_message(Request $request){
+    public function serach_message(Request $request,Application $wechat){
 
     	$discern=$request->all();
+
+		// $owner=owner_info::where('discern','=',$discern)->first();
+
+ 	//  	$time=date("Y-m-d H:i:s",time());
+ 	// 	$openId=$owner->opid;
+ 	// 	$name=$owner->name;
+ 	// 	$openId1='123123okl';
+ 	// 	$message=$time.'-'.$name.'被扫描';
+ 	// 	$messageType = Broadcast::MSG_TYPE_TEXT;
+		// $broadcast = $wechat->broadcast;
+		// $broadcast->send($messageType, $message, [$openId, $openId1]);	
+
+    
     	$mgs=owner_info::where('discern','=',$discern)->first();
     	if($mgs->statu!=1){
     		$mgs->name='未公开';
@@ -113,8 +127,20 @@ class OwnerController extends Controller
 
     //个人页面
     public function person(){
-    	
+    	$user = session('wechat.oauth_user');
+    	$Nickname=$user->getNickname();
+    	$Avatar=$user->getAvatar();//头像地址
+    	$opid=$user->getId();
+    	$owners=owner_info::where('opid','=',$opid)->get();
 
+  
+    	return view('owner.person',
+    		[
+    			'Nickname'=>$Nickname,
+    			'Avatar'=>$Avatar,
+    			'owners'=>$owners,
+    		
+    		]);
     }
 
 
@@ -136,20 +162,24 @@ class OwnerController extends Controller
     		return view('owner.from',
     			[	
     				'opid'=>$user->getId(),
+    				'nickname'=>$user->getNickname(),
     				'js'=>$js,
     				'discern'=>$mgs,
 
     			]);
  		}else{
- 			$owner=owner_info::where('discern','=',$mgs)->first();
- 			$time=date("Y-m-d H:i:s",time());
- 			$openId=$owner->opid;
- 			$name=$owner->name;
- 			$openId1='123123okl';
- 			$message=$time.'-'.$name.'被扫描';
- 			$messageType = Broadcast::MSG_TYPE_TEXT;
-			$broadcast = $wechat->broadcast;
-			$broadcast->send($messageType, $message, [$openId, $openId1]);	
+
+ 	
+		$owner=owner_info::where('discern','=',$mgs)->first();
+ 	 	$time=date("Y-m-d H:i:s",time());
+ 		$openId=$owner->opid;
+ 		$name=$owner->name;
+ 		$openId1='123123okl';
+ 		$message=$time.'-'.$name.'被扫描';
+ 		$messageType = Broadcast::MSG_TYPE_TEXT;
+		$broadcast = $wechat->broadcast;
+		$broadcast->send($messageType, $message, [$openId, $openId1]);	
+
  			return Redirect::route('serach_message',array('discern'=>$mgs));
  		}
  	
@@ -218,6 +248,7 @@ class OwnerController extends Controller
     	//使用create方法新增数据
     	$workout=owner_info::create(
     		[	'opid'=>$mgs['opid'],
+    			'nickname'=>$mgs['nickname'],
     			'name'=>$mgs['name'],
     			'wechat'=>$mgs['wechat'],
     			'discern'=>$mgs['discern'],
@@ -317,7 +348,7 @@ class OwnerController extends Controller
     		}
     	}
 
-    	return Redirect::route('serach_message',array('discern'=>$mgs['discern']));
+    	return Redirect::route('person');
 
     }
 
@@ -328,5 +359,26 @@ class OwnerController extends Controller
     	return view('owner.connection');
 
     }
+    //解除绑定
+    public function move(Request $request){
 
+    	$discern=$request->all();
+    	$mgs=owner_info::where('discern','=',$discern)->first();
+    	$move=move_owner::create(
+    		[
+    			'opid'=>$mgs->opid,
+    			'nickname'=>$mgs->nickname,
+    			'name'=>$mgs->name,
+    			'discern'=>$mgs->discern,
+    		]);
+    	$num=owner_info::destroy($mgs->id);
+    	if($num>0){
+    		return Redirect::route('person');
+    	}else{
+    		$erro="删除失败";
+    		echo $erro;
+    		Log::debug($error); 
+    	}
+
+    }
 }

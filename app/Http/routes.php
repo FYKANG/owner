@@ -23,6 +23,12 @@ Route::get('basic1', function () {
     return 'welcome';
 });
 
+Route::any('move',[
+	'uses'=>'OwnerController@move',
+	'as'=>'move'
+
+	]);
+
 // Route::any('mysql',[
 // 	'uses'=>'OwnerController@mysql',
 // 	'as'=>'mysql'
@@ -70,7 +76,7 @@ Route::any('/mysql',[
     ]);
 
 
-Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_base']], function () {
+Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
     Route::any('test',[
     	'uses'=>'OwnerController@test',
     	'as'=>'test',
