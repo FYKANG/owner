@@ -46,12 +46,13 @@ class OwnerController extends Controller
 	  	$time=time();
 	   	// $url=$qrcode->url($ticket);
 	   	// dd($qrcode);
-	   	for($i=1;$i<=20;$i++){
+	   	for($i=1;$i<=10;$i++){
 
 	   		$discerns[$i]=md5($time.$i.rand(1,999));
 	   		$add=owner_qrcode::create(
     			[
-    				'discern'=>$discerns[$i]
+    				'discern'=>$discerns[$i],
+                    'kind'=>'qrcode',
     			]);
 	   		$url='http://www.passowner.club/owner/public/from?discern='.$discerns[$i];
 	   		QrCode::format('png')->size(300)->errorCorrection('Q')->merge('/public/qrcodes/log.png',.2)->generate($url,'../public/qrcodes/'.$discerns[$i].'.png');
@@ -60,8 +61,51 @@ class OwnerController extends Controller
 	    return view('owner.mysql',
 	    		[
 	    			'discerns'=>$discerns,
+                    
 	    		]);
 
+
+    }
+
+
+    //微信二维码
+
+    public function getWechatQrcode(Application $wechat){
+        $public=public_path();
+        $time=time();
+        $qrcode = $wechat->qrcode;
+        for($i=1;$i<=10;$i++){
+        $discerns[$i]=md5($time.$i.rand(1,999));
+        $result = $qrcode->temporary($discerns[$i], 6 * 24 * 3600);
+        $ticket = $result->ticket;// 或者 $result['ticket']
+        $url = $qrcode->url($ticket);
+        $content = file_get_contents($url);
+        file_put_contents($public.'/wechatqrcode'.'/'.$discerns[$i].'.jpg',$content);
+
+        $add=owner_qrcode::create(
+                [
+                    'discern'=>$discerns[$i],
+                    'kind'=>'wechat',
+                ]);  
+        }
+       
+    }
+    //模板回复
+    public function notice(Request $request,Application $wechat){
+    
+        $notice = $wechat->notice;
+ 
+         $userId = 'oLiRv1HwbBzQL5NHNr3VB8Ru-1uA';
+                            $templateId = '5efyr7xL256QR-5LBJQDiavtcVpImq1mKYXeBIJHTO0';
+                            $url = route('person');
+                            $data = array(
+                                     "first"  => "谢谢你的热心帮助！",
+                                     "name"   => 'test',
+                                     "wechat"  => 'test',
+                                     "phone" => 'test',
+                                     "remark" =>'test',
+                                    );
+                            $result = $notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($userId)->send();
 
     }
     public function test(){
@@ -91,8 +135,7 @@ class OwnerController extends Controller
     public function serach_message(Request $request,Application $wechat){
 
     	$discern=$request->all();
-
-		// $owner=owner_info::where('discern','=',$discern)->first();
+		$mgs=owner_info::where('discern','=',$discern)->first();
 
  	//  	$time=date("Y-m-d H:i:s",time());
  	// 	$openId=$owner->opid;
@@ -103,8 +146,8 @@ class OwnerController extends Controller
 		// $broadcast = $wechat->broadcast;
 		// $broadcast->send($messageType, $message, [$openId, $openId1]);	
 
-    
-    	$mgs=owner_info::where('discern','=',$discern)->first();
+        
+    	
     	if($mgs->statu!=1){
     		$mgs->name='未公开';
     		$mgs->phone='未公开';

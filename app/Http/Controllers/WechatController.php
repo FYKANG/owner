@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session; //调用Session模型
 use Illuminate\Support\Facades\Cache;   //调用缓存
 use Illuminate\Support\Facades\Log;     //调用错误日志
 use EasyWeChat\Foundation\Application;  //实例化easywechat
+use App\owner_info;     //MOdel的调用
 
 class WechatController extends Controller
 {
@@ -21,6 +22,7 @@ class WechatController extends Controller
     {
 
      $server = $wechat->server;
+     $notice = $wechat->notice;
     //  $notice = $wechat->notice;
 
     // $userId = 'oLiRv1HwbBzQL5NHNr3VB8Ru-1uA';
@@ -36,14 +38,83 @@ class WechatController extends Controller
     // $result = $notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($userId)->send();
     // var_dump($result);
  
-
-    $server->setMessageHandler(function ($message) {
+    
+    $server->setMessageHandler(function ($message) use($notice){
     // $message->FromUserName // 用户的 openid
     // $message->MsgType // 消息类型：event, text....
-    return "Hi,owner";
+ 
+    switch ($message->MsgType) {
+            case 'event':
+                        $txt=$message->EventKey;
+                        if($txt!=null){ 
+                            $time=date("Y-m-d H:i:s",time());
+                            $check=substr($txt,0,8);
+                            if($check=='qrscene_'){
+                                $txt=substr($txt,8);
+
+                            }
+                            $userId = $message->FromUserName;
+                            $mgs=owner_info::where('discern','=',$txt)->first();
+                            if($mgs==null){
+                                $templateId = 'c1c5JiCyRnNkpARMdGP1wR8_U7ljDbcZUUjhGbyb6n8';
+                                $url = route('from').'?discern='.$txt;
+                                $data = array(
+                                         "first"  => "欢迎使用owner！",
+                                         "remark" =>$time=date("Y-m-d H:i:s",time()),
+                                        );
+                                $result = $notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($userId)->send();
+                            }else{
+
+                                $templateId = '5efyr7xL256QR-5LBJQDiavtcVpImq1mKYXeBIJHTO0';
+                                $url = route('from').'?discern='.$txt;
+                                $data = array(
+                                         "first"  => "谢谢你的热心帮助！",
+                                         "name"   => $mgs->name,
+                                         "wechat"  => $mgs->wechat,
+                                         "phone" => $mgs->phone,
+                                         "remark" =>$time=date("Y-m-d H:i:s",time()),
+                                        );
+                                $result = $notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($userId)->send();
+                            }
+                           
+                          
+                        }
+                        else{
+                            $txt='Hi,owner';
+                            return $txt;
+                        }
+                        
+                break;
+            case 'text':
+                return 'Hi,owner';
+                break;
+            case 'image':
+                return '收到图片消息';
+                break;
+            case 'voice':
+                return '收到语音消息';
+                break;
+            case 'video':
+                return '收到视频消息';
+                break;
+            case 'location':
+                return '收到坐标消息';
+                break;
+            case 'link':
+                return '收到链接消息';
+                break;
+            // ... 其它消息
+            default:
+                return '收到其它消息';
+                break;
+        }    
     });
     $response = $server->serve();
+
+
     return $response; // Laravel 里请使用：return $response;
+    
+    
     }
 
     public function demo(Application $wechat){
@@ -61,7 +132,7 @@ class WechatController extends Controller
                     [
                         "type" => "view",
                         "name" => "个人页面",
-                        "url"  => "http://www.passowner.club/owner/public"
+                        "url"  => "http://www.passowner.club/owner/public/person"
                     ],
                     [
                         "type" => "view",

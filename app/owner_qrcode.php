@@ -14,6 +14,7 @@ class owner_qrcode extends Model
 
     //设置允许批量赋值的字段
     protected  $fillable=[  'discern',
+                            'kind',
                             'statu',
        
                             ];

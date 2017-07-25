@@ -29,6 +29,18 @@ Route::any('move',[
 
 	]);
 
+
+Route::any('getWechatQrcode',[
+	'uses'=>'OwnerController@getWechatQrcode',
+	'as'=>'getWechatQrcode'
+
+	]);
+
+Route::any('notice',[
+	'uses'=>'OwnerController@notice',
+	'as'=>'notice'
+
+	]);
 // Route::any('mysql',[
 // 	'uses'=>'OwnerController@mysql',
 // 	'as'=>'mysql'
