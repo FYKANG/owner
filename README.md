@@ -1,9 +1,9 @@
 # OWNER
 ## 2017/06/30
-  * 我重新建了一个库，原本打算用TP做为框架写这个项目的，但是考虑到正在学习laravel框架，就打算用laravel框架来进行项目。
-  * 服务器使用centos 7系统，laravel5.2框架，php版本为5.6.3，使用mysql数据库。
-  * 关于laravel的安装
-    * 使用官方提供的安装方法，首先安装composer
+* 我重新建了一个库，原本打算用TP做为框架写这个项目的，但是考虑到正在学习laravel框架，就打算用laravel框架来进行项目。
+* 服务器使用centos 7系统，laravel5.2框架，php版本为5.6.3，使用mysql数据库。
+* 关于laravel的安装
+	* 使用官方提供的安装方法，首先安装composer
     ```
     #yum install composer
     ```
@@ -11,7 +11,17 @@
     ```
     #composer create-project laravel/laravel owner --prefer-dist "5.2.*"
     ```
-    * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
+	* 可能遇到的问题
+		```
+		[Symfony\Component\Process\Exception\RuntimeException]                                  
+		The Process class relies on proc_open, which is not available on your PHP installation.
+		```
+		```
+		[ErrorException]                                          
+		proc_get_status() has been disabled for security reasons 
+		```
+		* 解决方法：修改php.ini查找disable_functions将里面的`proc_open`以及`proc_get_status()`删除
+    * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
     ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
 ## 2017/07/01
 ### laravel的路由使用
