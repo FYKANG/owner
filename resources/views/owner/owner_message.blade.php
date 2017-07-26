@@ -137,8 +137,9 @@
 </div>
 
 <!-- 定义简历页底 //-->
+
 <div class="container">
-  <div class="row"><div class="footer text-center">关注-owner</div></div>
+  <div class="row"><div class="footer text-center">关注-owner<img data-toggle="tooltip" data-placement="left"  title="owner" class="img-responsive img-rounded" src="img/ewm.png" alt=""></div></div>
 </div>
 
 <!-- 引入jQuery类库和Bootstrap3的Javascript类库 //-->
