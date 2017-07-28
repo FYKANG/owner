@@ -682,3 +682,30 @@ class OwnerController extends Controller
 	</script>
 	```
 * 注意使用laravel的view传入$js的对象无法正常调用模块需。
+## 2017/07/19
+### 修改http为https
+* 证书申请：可以在阿里云申请
+* 安装opensll以及mod_ssl模块`yum install openssl mod_ssl -y`
+* 修改配置（以Apache为例以下的[apache]为Apache的安装根目录）
+	* 添加httpd.conf配置:[apache]/conf/httpd.conf目录下查询以下语句，将前面的#号注释去掉，如果没有则直接添加。注意第二条语句部分配置并不需要。
+	```conf
+	#LoadModule ssl_module modules/mod_ssl.so
+	#Include conf/extra/httpd-ssl.conf
+	```
+	* 添加ssl.conf配置：[apache]conf/extra/httpd-ssl.conf 文件 (也可能是[apache]conf.d/ssl.conf，与操作系统及安装方式有关）
+	```
+	# 添加 SSL 协议支持协议，去掉不安全的协议
+	SSLProtocol all -SSLv2 -SSLv3
+	# 修改加密套件如下，如果该属性开头有 '#'字符，请删除掉
+	SSLCipherSuite HIGH:!RC4:!MD5:!aNULL:!eNULL:!NULL:!DH:!EDH:!EXP:+MEDIUM
+	SSLHonorCipherOrder on
+	# 证书公钥配置(cert/ssl.key根据证书存放位置做出相应改变)
+	SSLCertificateFile cert/public.pem
+	# 证书私钥配置(cert/ssl.key根据证书存放位置做出相应改变)
+	SSLCertificateKeyFile cert/ssl.key
+	# 证书链配置，如果该属性开头有 '#'字符，请删除掉(cert/chain.pem根据证书存放位置做出相应改变)
+	SSLCertificateChainFile cert/chain.pem
+	```
+	* 打开443端口：修改apache配置`listen 443`，如果使用了阿里云服务器可进入控制台的安全组添加443端口，在apache处修改可能会报错
+* 以上就是https的设置过程
+	
