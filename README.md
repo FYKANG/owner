@@ -682,7 +682,7 @@ class OwnerController extends Controller
 	</script>
 	```
 * 注意使用laravel的view传入$js的对象无法正常调用模块需。
-## 2017/07/19
+## 2017/07/29
 ### 修改http为https
 * 证书申请：可以在阿里云申请
 * 安装opensll以及mod_ssl模块`yum install openssl mod_ssl -y`
