@@ -742,7 +742,7 @@ class OwnerController extends Controller
     "autoload": {
         "classmap": [
             "database",
-            "app/Classes"	//这一行是添加自定义类的路径
+            "app/Classes"	
         ],
         "psr-4": {
             "App\\": "app/"
