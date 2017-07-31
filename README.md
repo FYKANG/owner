@@ -737,9 +737,9 @@ class OwnerController extends Controller
 	$clssA=new ClassA();
 	$testclass=$clssA->testclass();
 	```
-*	修改composer设置，添加自定义类的路径
+* 修改composer设置，添加自定义类的路径
 	```json
-    "autoload": {
+    "autoload": {
         "classmap": [
             "database",
             "app/Classes"	
