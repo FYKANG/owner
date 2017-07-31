@@ -739,15 +739,15 @@ class OwnerController extends Controller
 	```
 * 修改composer设置，添加自定义类的路径
 	```
-    "autoload": {
-        "classmap": [
-            "database",
-            "app/Classes"	
-        ],
-        "psr-4": {
-            "App\\": "app/"
-        }
-    },	
+	"autoload": {
+		"classmap": [
+		    "database",
+		    "app/Classes"
+		],
+		"psr-4": {
+		    "App\\": "app/"
+		}
+	    },
 	```
 
 
