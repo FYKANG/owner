@@ -708,4 +708,50 @@ class OwnerController extends Controller
 	```
 	* 打开443端口：修改apache配置`listen 443`，如果使用了阿里云服务器可进入控制台的安全组添加443端口，在apache处修改可能会报错
 * 以上就是https的设置过程
-	
+## 2017/07/31
+### 引入自定义类
+* 在app/Classes创建目录
+* 创建自定义类如：
+	```php
+	<?php  
+		namespace App\Classes;
+
+		/**
+		* 
+		*/
+		class ClassA 
+		{
+
+			public function testclass()
+			{
+				echo "自定义类成功加入";
+			}
+		}
+	```
+* 在需要引入的控制器中添加
+	```php
+	use App\Classes\ClassA;
+	```
+* 在方法中使用
+	```php
+	$clssA=new ClassA();
+	$testclass=$clssA->testclass();
+	```
+*	修改composer设置，添加自定义类的路径
+	```json
+    "autoload": {
+        "classmap": [
+            "database",
+            "app/Classes"	//这一行是添加自定义类的路径
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },	
+	```
+* 更新composer
+	```
+	composer dump-autoload
+	```
+
+
