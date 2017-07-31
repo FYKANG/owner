@@ -749,9 +749,6 @@ class OwnerController extends Controller
         }
     },	
 	```
-* 更新composer
-	```
-	composer dump-autoload
-	```
+
 
 
