@@ -653,7 +653,10 @@ class OwnerController extends Controller
 			```
 	* 直接访问`http://域名/public/wechat`会出现`BadRequestException in Guard.php line 343:Invalid request.`提示功能在微信端进行回复测试功能正常。目前尚未知原因。
 	* 使用中间件的时候用户信息机制选择无法通过`.env`直接配置
-		* 方案一:清除缓存`php artisan config:cache`
+		* 方案一:清除缓存
+			```
+			php artisan config:cache
+			```
 		* 方案二：直接在路由中配置
 			```php
 			Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
@@ -753,5 +756,25 @@ class OwnerController extends Controller
 	```
 	composer dump-autoload
 	```
+## 2017/08/07
+### 关于自定义常量
+* 新建`config/constants.php`
+* 在文件中加入以下代码
+	```php
+	<?php  
 
+	return [
+
+	'DEFINE' => 'define_ok',
+	
+	];	
+	```
+* 调用时使用以下代码
+	```php
+	echo Config::get('constants.DEFINE');
+	```
+* 注意在服务器中使用的时候需要清理一下缓存
+	```
+	php artisan config:cache
+	```
 
