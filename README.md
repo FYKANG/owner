@@ -1,9 +1,9 @@
 # OWNER
 ## 2017/06/30
-  * 我重新建了一个库，原本打算用TP做为框架写这个项目的，但是考虑到正在学习laravel框架，就打算用laravel框架来进行项目。
-  * 服务器使用centos 7系统，laravel5.2框架，php版本为5.6.3，使用mysql数据库。
-  * 关于laravel的安装
-    * 使用官方提供的安装方法，首先安装composer
+* 我重新建了一个库，原本打算用TP做为框架写这个项目的，但是考虑到正在学习laravel框架，就打算用laravel框架来进行项目。
+* 服务器使用centos 7系统，laravel5.2框架，php版本为5.6.3，使用mysql数据库。
+* 关于laravel的安装
+	* 使用官方提供的安装方法，首先安装composer
     ```
     #yum install composer
     ```
@@ -11,7 +11,17 @@
     ```
     #composer create-project laravel/laravel owner --prefer-dist "5.2.*"
     ```
-    * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
+	* 可能遇到的问题
+		```
+		[Symfony\Component\Process\Exception\RuntimeException]                                  
+		The Process class relies on proc_open, which is not available on your PHP installation.
+		```
+		```
+		[ErrorException]                                          
+		proc_get_status() has been disabled for security reasons 
+		```
+		* 解决方法：修改php.ini查找disable_functions将里面的`proc_open`以及`proc_get_status()`删除
+    * 用浏览器进入localhost/项目根目录/public，如果浏览器出现下面这张图就表示安装成功了
     ![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelCheck.png)
 ## 2017/07/01
 ### laravel的路由使用
@@ -547,5 +557,224 @@ class OwnerController extends Controller
 	```
 ### Debug模式
 * 配置目录config/app(调用.env文件配置默认为`APP_DEBUG=true`)
-	* 关闭后只会出现以下信息
+	* 关闭后只会出现以下信息<br>
 	![](https://github.com/FYKANG/owner/raw/master/githubIMG/laravelDebug.png)
+## 2017/07/10
+### HTTP错误
+* abort
+	```php
+	//抛出异常,抛出到模板503中，路径为`./resources/views/errors/503.blade.php`(可以在当前目录自定义模板)
+	abort('503');
+	```
+* 404错误自动抛出
+	* `./resources/views/errors/503.blade.php`中创建`404.blade.php`
+### 日志
+* 日志模式有
+	* single —— 将日志记录到单个文件中。该日志处理器对应Monolog的StreamHandler。
+	* daily —— 以日期为单位将日志进行归档，每天创建一个新的日志文件记录日志。该日志处理器 对应Monolog的RotatingFileHandler。
+	* syslog —— 将日志记录到syslog中。该日志处理器 对应Monolog的SyslogHandler。
+	* errorlog —— 将日志记录到PHP的error_log中。该日志处理器 对应Monolog的ErrorLogHandler。
+* 错误级别以及基础使用
+	```php
+	Log::emergency($error);     //紧急状况，比如系统挂掉
+	Log::alert($error);     //需要立即采取行动的问题，比如整站宕掉，数据库异常等，这种状况应该通过短信提醒 
+	Log::critical($error);     //严重问题，比如：应用组件无效，意料之外的异常
+	Log::error($error);     //运行时错误，不需要立即处理但需要被记录和监控
+	Log::warning($error);    //警告但不是错误，比如使用了被废弃的API
+	Log::notice($error);     //普通但值得注意的事件
+	Log::info($error);     //感兴趣的事件，比如登录、退出
+	Log::debug($error);     //详细的调试信息
+	```
+* 命名空间
+	* `use Illuminate\Support\Facades\Log;`
+* 日志配置
+	* 在./.env中配置(如调用daily模式)
+	```php
+	APP_LOG=daily
+	```
+* 查看错误日志
+	* 位于`./storage/logs`中
+## 2017/07/11
+### 关于使用composer遇到的问题
+* 更改镜像 
+	* 全局更改`composer config -g repositories.packagist composer http://packagist.phpcomposer.com`
+	* 项目内更改
+		```json
+		"repositories": [
+        	{"type": "composer", "url": "http://packagist.phpcomposer.com"},
+        	{"packagist": false}
+    	]
+		```
+* 更改镜像后无法正常使用提示` Your configuration does not allow connection to http://packagist.phpcompose  r.com. See https://getcomposer.org/doc/06-config.md#secure-http for details.`
+	* 错误原因：原地址是需要https，改用镜像后使用的是http
+	* 解决方法
+		* 方法一
+			```json
+	  		"config": {  
+        		"secure-http": false  
+    		} 
+			```
+		* 方法二
+			* 全局设置：
+			`composer config -g secure-http false`
+## 2017/07/12
+### easywechat的使用
+* `https://github.com/overtrue/laravel-wechat`
+* 遇到的问题
+	* 配置如果使用.env方式配置请对应好相关字段
+		```
+		WECHAT_APPID=开发者ID(AppID)
+		WECHAT_SECRET=开发者密码(AppSecret)
+		WECHAT_TOKEN=令牌(Token)
+		WECHAT_AES_KEY=消息加解密密钥(EncodingAESKey)
+
+		WECHAT_LOG_LEVEL=
+		WECHAT_LOG_FILE=
+
+		WECHAT_OAUTH_SCOPES=用户信息机制选择
+		WECHAT_OAUTH_CALLBACK=授权回调页面域名
+
+		WECHAT_PAYMENT_MERCHANT_ID=
+		WECHAT_PAYMENT_KEY=
+		WECHAT_PAYMENT_CERT_PATH=
+		WECHAT_PAYMENT_KEY_PATH=
+		WECHAT_PAYMENT_DEVICE_INFO=
+		WECHAT_PAYMENT_SUB_APP_ID=
+		WECHAT_PAYMENT_SUB_MERCHANT_ID=
+		WECHAT_ENABLE_MOCK=	
+		```
+	* 注意微信开发者的url配置为能访问到wechat控制器的路由
+	* 在 CSRF 中间件里排除微信相关的路由
+		* 具体方法：在./app/Http/Middleware/VerifyCsrfToken.php中的$except添加代码
+			```php
+			protected $except = [
+    			'wechat'
+   			 ];
+			```
+	* 直接访问`http://域名/public/wechat`会出现`BadRequestException in Guard.php line 343:Invalid request.`提示功能在微信端进行回复测试功能正常。目前尚未知原因。
+	* 使用中间件的时候用户信息机制选择无法通过`.env`直接配置
+		* 方案一:清除缓存
+			```
+			php artisan config:cache
+			```
+		* 方案二：直接在路由中配置
+			```php
+			Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
+			});
+			```
+	* 别把推送写在配置的url中，监听会导致推送一直重复执行
+	* 添加和修改自定义菜单有一定的延迟，可以取消关注后重新关注就能马上看到效果了
+## 2017/07/13
+### 关于Simple QrCode
+* 以下是官方描述
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qr.png)
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrE.png)
+	![](https://github.com/FYKANG/owner/raw/master/githubIMG/qrC.png)
+* 在实践测试中发现如果不手动添加`errorCorrection('H')`容错率并不能达到H等级，会出现添加logo后无法识别的情况。
+## 2017/07/19
+### 关于调用easywechat的jssdk模块
+* 示例
+	```php
+	<script type="text/javascript" charset="utf-8">
+	    wx.config(<?php echo app('wechat')->js
+	    		->config(array(	'chooseImage',
+	    				'previewImage',  
+	                    		'uploadImage',  
+	                    		'downloadImage',
+	                    		), true) ?>);
+	</script>
+	```
+* 注意使用laravel的view传入$js的对象无法正常调用模块需。
+## 2017/07/29
+### 修改http为https
+* 证书申请：可以在阿里云申请
+* 安装opensll以及mod_ssl模块`yum install openssl mod_ssl -y`
+* 修改配置（以Apache为例以下的[apache]为Apache的安装根目录）
+	* 添加httpd.conf配置:[apache]/conf/httpd.conf目录下查询以下语句，将前面的#号注释去掉，如果没有则直接添加。注意第二条语句部分配置并不需要。
+	```conf
+	#LoadModule ssl_module modules/mod_ssl.so
+	#Include conf/extra/httpd-ssl.conf
+	```
+	* 添加ssl.conf配置：[apache]conf/extra/httpd-ssl.conf 文件 (也可能是[apache]conf.d/ssl.conf，与操作系统及安装方式有关）
+	```
+	# 添加 SSL 协议支持协议，去掉不安全的协议
+	SSLProtocol all -SSLv2 -SSLv3
+	# 修改加密套件如下，如果该属性开头有 '#'字符，请删除掉
+	SSLCipherSuite HIGH:!RC4:!MD5:!aNULL:!eNULL:!NULL:!DH:!EDH:!EXP:+MEDIUM
+	SSLHonorCipherOrder on
+	# 证书公钥配置(cert/ssl.key根据证书存放位置做出相应改变)
+	SSLCertificateFile cert/public.pem
+	# 证书私钥配置(cert/ssl.key根据证书存放位置做出相应改变)
+	SSLCertificateKeyFile cert/ssl.key
+	# 证书链配置，如果该属性开头有 '#'字符，请删除掉(cert/chain.pem根据证书存放位置做出相应改变)
+	SSLCertificateChainFile cert/chain.pem
+	```
+	* 打开443端口：修改apache配置`listen 443`，如果使用了阿里云服务器可进入控制台的安全组添加443端口，在apache处修改可能会报错
+* 以上就是https的设置过程
+## 2017/07/31
+### 引入自定义类
+* 在app/Classes创建目录
+* 创建自定义类如：
+	```php
+	<?php  
+		namespace App\Classes;
+
+		/**
+		* 
+		*/
+		class ClassA 
+		{
+
+			public function testclass()
+			{
+				echo "自定义类成功加入";
+			}
+		}
+	```
+* 在需要引入的控制器中添加
+	```php
+	use App\Classes\ClassA;
+	```
+* 在方法中使用
+	```php
+	$clssA=new ClassA();
+	$testclass=$clssA->testclass();
+	```
+* 修改composer设置，添加自定义类的路径
+	```json
+	"autoload": {
+		"classmap": [
+		    "database",
+		    "app/Classes"
+		],
+		"psr-4": {
+		    "App\\": "app/"
+		}
+	    },
+	```
+* 更新composer
+	```
+	composer dump-autoload
+	```
+## 2017/08/07
+### 关于自定义常量
+* 新建`config/constants.php`
+* 在文件中加入以下代码
+	```php
+	<?php  
+
+	return [
+
+	'DEFINE' => 'define_ok',
+	
+	];	
+	```
+* 调用时使用以下代码
+	```php
+	echo Config::get('constants.DEFINE');
+	```
+* 注意在服务器中使用的时候需要清理一下缓存
+	```
+	php artisan config:cache
+	```
+
