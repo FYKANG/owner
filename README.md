@@ -3,8 +3,8 @@
 * 使用前请扫描进行开发者认证
 ![](https://github.com/FYKANG/owner/raw/master/githubIMG/ewm.png)
 * 基础的后台管理api
-    - 生成不带场景值的二维码（有关场景值请参考[微信开发者文档](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1445241432)））
-    - 生成带场景值的二维码
+    - [生成不带场景值的二维码](https://www.passowner.club/owner/public/mysql)（有关场景值请参考[微信开发者文档](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1445241432)）
+    - [生成带场景值的二维码](https://www.passowner.club/owner/public/getWechatQrcode)(注意带场景值的二维码有效期为30天)
 ## 进度说明
 * 后端说明
     * Composer进行PHP依赖包管理
