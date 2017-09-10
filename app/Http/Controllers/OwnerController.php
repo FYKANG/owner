@@ -28,41 +28,41 @@ class OwnerController extends Controller
     public function mysql(Request $request,Application $wechat)
     {	
 
-    	// $response = $auth->oauth->scopes(['snsapi_userinfo'])
-     //                      ->setRequest($request)
-     //                      ->redirect();
-     //                      return $response;
-    	// $user = session('wechat.oauth_user');
-    	//获取easywechat二维码实例
-    	$qrcode = $wechat->qrcode;
+        if($request->isMethod('get')){
 
-  //   	$result = $qrcode->forever(56);// 或者 $qrcode->forever("foo");
-		// $ticket = $result->ticket; // 或者 $result['ticket']
-		// $url = $result->url;
-	   	
-	   	// $result = $qrcode->temporary(time(), 10);
-	   	// $ticket = $result->ticket;
-	   	// $expireSeconds = $result->expire_seconds;
-	  	$time=time();
-	   	// $url=$qrcode->url($ticket);
-	   	// dd($qrcode);
-	   	for($i=1;$i<=10;$i++){
-
-	   		$discerns[$i]=md5($time.$i.rand(1,999));
-	   		$add=owner_qrcode::create(
-    			[
-    				'discern'=>$discerns[$i],
-                    'kind'=>'qrcode',
-    			]);
-	   		$url='http://www.passowner.club/owner/public/from?discern='.$discerns[$i];
-	   		QrCode::format('png')->size(300)->errorCorrection('Q')->merge('/public/qrcodes/log.png',.2)->generate($url,'../public/qrcodes/'.$discerns[$i].'.png');
-	   	}
-	  	
-	    return view('owner.mysql',
-	    		[
-	    			'discerns'=>$discerns,
+            $discerns='null';
+             return view('owner.mysql',
+                [
+                    'discerns'=>$discerns,
                     
-	    		]);
+                ]);
+        }
+        else{
+        //获取easywechat二维码实例
+        $qrcode = $wechat->qrcode;
+
+        $num=$request->input('num');
+        $time=time();
+
+        for($i=1;$i<=$num;$i++){
+
+            $discerns[$i]=md5($time.$i.rand(1,999));
+            $add=owner_qrcode::create(
+                [
+                    'discern'=>$discerns[$i],
+                    'kind'=>'qrcode',
+                ]);
+            $url='http://www.passowner.club/owner/public/from?discern='.$discerns[$i];
+            QrCode::format('png')->size(300)->errorCorrection('Q')->merge('/public/qrcodes/log.png',.2)->generate($url,'../public/qrcodes/'.$discerns[$i].'.png');
+        }
+        
+        return view('owner.mysql',
+                [
+                    'discerns'=>$discerns,
+                    
+                ]);
+        }
+    	
 
 
     }
@@ -70,11 +70,25 @@ class OwnerController extends Controller
 
     //微信二维码
 
-    public function getWechatQrcode(Application $wechat){
+    public function getWechatQrcode(Request $request,Application $wechat){
+
+
+        if($request->isMethod('get')){
+
+            $discerns='null';
+             return view('owner.GWQrcode',
+                [
+                    'discerns'=>$discerns,
+                    
+                ]);
+        }
+
+        else{
+        $num=$request->input('num');    
         $public=public_path();
         $time=time();
         $qrcode = $wechat->qrcode;
-        for($i=1;$i<=10;$i++){
+        for($i=1;$i<=$num;$i++){
         $discerns[$i]=md5($time.$i.rand(1,999));
         $result = $qrcode->temporary($discerns[$i], 6 * 24 * 3600);
         $ticket = $result->ticket;// 或者 $result['ticket']
@@ -88,6 +102,14 @@ class OwnerController extends Controller
                     'kind'=>'wechat',
                 ]);  
         }
+
+           return view('owner.GWQrcode',
+                [
+                    'discerns'=>$discerns,
+                    
+                ]);
+        }
+        
        
     }
     //模板回复
