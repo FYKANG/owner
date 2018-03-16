@@ -547,7 +547,7 @@ class OwnerController extends Controller
 	```
 * make创建(创建一个OwnerControlller控制器)
 	```
-	php artisan make:controller OwnerControlller
+	php artisan make:controller OwnerController
 	```
 ## 2017/07/09
 ### laravel的缓存使用
